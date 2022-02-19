@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.astery.weatherapp.app.appComponent
 import com.astery.weatherapp.databinding.SearchCitiesFragmentBinding
+import com.astery.weatherapp.model.City
 import com.astery.weatherapp.ui.BaseFragment
 
 class SearchCitiesFragment : BaseFragment() {
@@ -26,5 +28,13 @@ class SearchCitiesFragment : BaseFragment() {
     ): View {
         _bind = SearchCitiesFragmentBinding.inflate(inflater, container, false)
         return bind.root
+    }
+
+    private fun moveToWeather(city: City) {
+        findNavController().navigate(
+            SearchCitiesFragmentDirections.actionSearchCitiesFragmentToWeatherTodayFragment(
+                city
+            )
+        )
     }
 }

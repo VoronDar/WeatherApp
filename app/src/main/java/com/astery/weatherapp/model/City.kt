@@ -1,7 +1,10 @@
 package com.astery.weatherapp.model
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 @Entity
-data class City(@PrimaryKey val id:Int)
+data class City(@PrimaryKey val id:Int):Parcelable
