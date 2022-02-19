@@ -1,40 +1,25 @@
 package com.astery.weatherapp.ui.favCities
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.astery.weatherapp.app.appComponent
 import com.astery.weatherapp.databinding.FavCitiesFragmentBinding
 import com.astery.weatherapp.model.City
 import com.astery.weatherapp.ui.BaseFragment
-import com.astery.weatherapp.ui.searchCities.SearchCitiesFragmentDirections
+import com.astery.weatherapp.ui.BindingInflater
 
-class FavCitiesFragment:BaseFragment() {
-    private val bind:FavCitiesFragmentBinding
-    get() = _bind!! as FavCitiesFragmentBinding
+class FavCitiesFragment : BaseFragment<FavCitiesFragmentBinding>() {
+    private val viewModel: FavCitiesViewModel by viewModels()
+    override fun inflateBinding(): BindingInflater<FavCitiesFragmentBinding> {
+        return FavCitiesFragmentBinding::inflate
+    }
 
-    private val viewModel:FavCitiesViewModel by viewModels()
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    override fun inject() {
         context?.appComponent?.inject(this)
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _bind = FavCitiesFragmentBinding.inflate(inflater, container, false)
-        return bind.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        moveToWeather(City(2))
+    override fun setViewModelListeners() {
+        TODO("Not yet implemented")
     }
 
     private fun moveToWeather(city: City) {
