@@ -4,7 +4,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.astery.weatherapp.app.appComponent
 import com.astery.weatherapp.databinding.FavCitiesFragmentBinding
-import com.astery.weatherapp.model.City
+import com.astery.weatherapp.model.pogo.City
 import com.astery.weatherapp.ui.BaseFragment
 import com.astery.weatherapp.ui.BindingInflater
 

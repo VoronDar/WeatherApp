@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.astery.weatherapp.model.City
-import com.astery.weatherapp.model.WeatherData
+import com.astery.weatherapp.model.pogo.City
+import com.astery.weatherapp.model.pogo.WeatherData
 
 @Database(
     entities = [City::class, WeatherData::class],

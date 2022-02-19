@@ -1,4 +1,4 @@
-package com.astery.weatherapp.model
+package com.astery.weatherapp.model.pogo
 
 import android.os.Parcelable
 import androidx.room.Entity

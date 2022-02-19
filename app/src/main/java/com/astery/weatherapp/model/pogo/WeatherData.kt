@@ -1,4 +1,4 @@
-package com.astery.weatherapp.model
+package com.astery.weatherapp.model.pogo
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

@@ -3,7 +3,7 @@ package com.astery.weatherapp.ui.weatherToday
 import androidx.navigation.fragment.findNavController
 import com.astery.weatherapp.app.appComponent
 import com.astery.weatherapp.databinding.WeatherFragmentBinding
-import com.astery.weatherapp.model.City
+import com.astery.weatherapp.model.pogo.City
 import com.astery.weatherapp.ui.BaseFragment
 import com.astery.weatherapp.ui.BindingInflater
 import com.astery.weatherapp.ui.utils.ArgumentsDelegate
