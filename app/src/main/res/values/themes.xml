@@ -11,6 +11,42 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <item name="buttonStyle">@style/mainButton</item>
+        <item name="android:textViewStyle">@style/regularText</item>
     </style>
+
+    <style name="icon">
+        <item name="android:layout_width">@dimen/icon_size</item>
+        <item name="android:layout_height">@dimen/icon_size</item>
+    </style>
+
+    <style name="mainButton" parent="Widget.Material3.Button.TextButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="backgroundTint">@color/down</item>
+        <item name="android:textColor">@color/onDown</item>
+        <item name="android:textSize">@dimen/button_text_size</item>
+        <item name="cornerRadius">@dimen/small_corner_radius</item>
+        <item name="android:fontFamily">@font/heebo_black</item>
+    </style>
+
+    <style name="regularText" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/onBackground</item>
+        <item name="android:textSize">@dimen/regular_text_size</item>
+        <item name="android:fontFamily">@font/heebo_regular</item>
+    </style>
+
+    <style name="helperText" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/helperText</item>
+        <item name="android:textSize">@dimen/small_text_size</item>
+        <item name="android:fontFamily">@font/heebo_regular</item>
+    </style>
+
+
 </resources>

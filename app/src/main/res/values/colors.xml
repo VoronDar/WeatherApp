@@ -7,4 +7,12 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="background">#FFFFFF</color>
+    <color name="onBackground">#000000</color>
+    <color name="down">#37A4ED</color>
+    <color name="onDown">#FFFFFF</color>
+
+    <!-- less important small text on background  -->
+    <color name="helperText">#B3000000</color>
 </resources>

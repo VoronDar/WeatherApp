@@ -1,0 +1,8 @@
+<resources>
+    <dimen name="icon_size">24dp</dimen>
+    <dimen name="button_text_size">16sp</dimen>
+    <dimen name="regular_text_size">18sp</dimen>
+    <dimen name="small_text_size">16sp</dimen>
+    <dimen name="big_corner_radius">16dp</dimen>
+    <dimen name="small_corner_radius">8dp</dimen>
+</resources>
