@@ -1,0 +1,41 @@
+package com.astery.weatherapp.app.di
+
+import android.content.Context
+import com.astery.weatherapp.storage.local.LocalDataStorage
+import com.astery.weatherapp.storage.local.LocalDataStorageImpl
+import com.astery.weatherapp.storage.local.db.AppDatabase
+import com.astery.weatherapp.storage.remote.RemoteDataStorage
+import com.astery.weatherapp.storage.remote.RemoteDataStorageImpl
+import com.astery.weatherapp.storage.remote.retrofit.weather.WeatherRetrofitInstance
+import com.astery.weatherapp.storage.repository.Repository
+import com.astery.weatherapp.storage.repository.RepositoryImpl
+import com.astery.weatherapp.ui.favCities.FavCitiesFragment
+import com.astery.weatherapp.ui.searchCities.SearchCitiesFragment
+import com.astery.weatherapp.ui.weatherToday.WeatherTodayFragment
+import dagger.Binds
+import dagger.Component
+import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
+
+@Singleton
+@Component(modules = [ApplicationModule::class])
+interface ApplicationComponent {
+    fun inject(fragment: WeatherTodayFragment)
+    fun inject(fragment: FavCitiesFragment)
+    fun inject(fragment: SearchCitiesFragment)
+}
+
+@Module
+abstract class ApplicationModule(private val context: Context) {
+
+    @Binds
+    abstract fun bindRepository(repository: RepositoryImpl): Repository
+
+    @Binds
+    abstract fun bindLocalStorage(storage: LocalDataStorageImpl): LocalDataStorage
+
+    @Binds
+    abstract fun bindRemoteStorage(storage: RemoteDataStorageImpl): RemoteDataStorage
+
+}
