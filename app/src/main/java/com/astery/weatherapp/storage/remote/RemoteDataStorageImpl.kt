@@ -4,10 +4,9 @@ import com.astery.weatherapp.BuildConfig
 import com.astery.weatherapp.model.pogo.City
 import com.astery.weatherapp.model.pogo.Location
 import com.astery.weatherapp.model.pogo.WeatherData
-import com.astery.weatherapp.model.state.ResultError
-import com.astery.weatherapp.model.state.StateCompleted
-import com.astery.weatherapp.model.state.StateError
-import com.astery.weatherapp.model.state.StateResult
+import com.astery.weatherapp.model.state.Completed
+import com.astery.weatherapp.model.state.Error
+import com.astery.weatherapp.model.state.Result
 import com.astery.weatherapp.storage.remote.retrofit.cities.CitiesRetrofitInstance
 import com.astery.weatherapp.storage.remote.retrofit.weather.WeatherRetrofitInstance
 import timber.log.Timber
@@ -19,20 +18,22 @@ class RemoteDataStorageImpl @Inject constructor(
 ) : RemoteDataStorage {
 
 
-    override suspend fun getCurrentWeather(city: City): StateResult<WeatherData> {
+    override suspend fun getCurrentWeather(city: City): Result<WeatherData> {
         return try {
-            StateCompleted(WeatherData(city,
-                weatherRetrofit.weatherApi.getWeather(city.id, key, true, lang).first()
-                    .toWeather(city.id)
-            ), false
+            Completed(
+                WeatherData(
+                    city,
+                    weatherRetrofit.weatherApi.getWeather(city.id, key, true, lang).first()
+                        .toWeather(city.id)
+                ), false
             )
         } catch (e: Exception) {
             Timber.d("caught an exception ${e::class.simpleName} ${e.localizedMessage}")
-            StateError(ResultError.UnexpectedBug)
+            Error(Error.ResultError.UnexpectedBug)
         }
     }
 
-    override suspend fun getCity(location: Location): StateResult<City> {
+    override suspend fun getCity(location: Location): Result<City> {
         return try {
             val it = citiesRetrofit.api.getCityByLocation(
                 key,
@@ -40,11 +41,11 @@ class RemoteDataStorageImpl @Inject constructor(
                 true,
                 "${location.latitude},${location.longitude}"
             )
-            if (it.id == "null") StateError(ResultError.UnexpectedBug)
-            else StateCompleted(it, false)
+            if (it.id == "null") Error(Error.ResultError.UnexpectedBug)
+            else Completed(it, false)
         } catch (e: Exception) {
             Timber.d("caught an exception ${e::class.simpleName} ${e.localizedMessage}")
-            StateError(ResultError.UnexpectedBug)
+            Error(Error.ResultError.UnexpectedBug)
         }
     }
 

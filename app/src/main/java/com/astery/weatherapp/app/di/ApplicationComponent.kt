@@ -28,33 +28,9 @@ interface ApplicationComponent {
     fun inject(fragment: SearchCitiesFragment)
 }
 
-@Module
-interface ApplicationModule{
-
-    @Binds
-    fun bindRepository(repository: RepositoryImpl): Repository
-
-    @Binds
-    fun bindLocalStorage(storage: LocalDataStorageImpl): LocalDataStorage
-
-    @Binds
-    fun bindRemoteStorage(storage: RemoteDataStorageImpl): RemoteDataStorage
-
-
-}
-
-
-@Module
-class ContextDependAppModule(private val context: Context) {
-    @Provides
-    fun provideAppDatabase():AppDatabase{
-        return AppDatabase.getDatabase(context)
+val Context.appComponent:ApplicationComponent
+    get() = when(this) {
+        is App -> this.appComponent
+        else -> this.applicationContext.appComponent
     }
-
-    @Provides
-    fun providePreferences(): Preferences {
-        return Preferences(context)
-    }
-
-}
 

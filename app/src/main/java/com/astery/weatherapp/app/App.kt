@@ -22,9 +22,3 @@ class App: Application() {
         }
     }
 }
-
-val Context.appComponent:ApplicationComponent
-    get() = when(this) {
-        is App -> this.appComponent
-        else -> this.applicationContext.appComponent
-    }

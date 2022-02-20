@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="titleCard">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">16dp</item>
+        <item name="contentPadding">8dp</item>
+        <item name="cardBackgroundColor">@color/background</item>
+        <item name="cardCornerRadius">@dimen/small_corner_radius</item>
+    </style>
+
+    <style name="Theme.WeatherApp.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="icon">
+        <item name="android:layout_width">@dimen/icon_size</item>
+        <item name="android:layout_height">@dimen/icon_size</item>
+        <item name="android:background">?android:selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="mainButton" parent="Widget.Material3.Button.TextButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="backgroundTint">@color/down</item>
+        <item name="android:textColor">@color/on_down</item>
+        <item name="android:textSize">@dimen/button_text_size</item>
+        <item name="cornerRadius">@dimen/small_corner_radius</item>
+        <item name="android:fontFamily">@font/heebo_black</item>
+    </style>
+
+    <style name="regularText" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textAlignment">textStart</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/on_background</item>
+        <item name="android:textSize">@dimen/regular_text_size</item>
+        <item name="android:fontFamily">@font/heebo_regular</item>
+    </style>
+
+    <style name="highlightText" parent="regularText" >
+        <item name="android:textSize">@dimen/highlight_text_size</item>
+        <item name="android:fontFamily">@font/heebo_medium</item>
+    </style>
+
+    <style name="helperText" >
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/helper_text</item>
+        <item name="android:textSize">@dimen/small_text_size</item>
+        <item name="android:fontFamily">@font/heebo_regular</item>
+    </style>
+
+    <style name="state_text" parent="regularText">
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="layout_constraintHorizontal_bias">0</item>
+
+    </style>
+    <style name="state_icon" parent="icon">
+        <item name="android:layout_marginTop">32dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+    </style>
+
+    <style name="titleLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="backButton" parent="icon">
+        <item name="android:layout_margin">8dp</item>
+        <item name="android:contentDescription">@string/cd_back</item>
+        <item name="android:src">@drawable/ic_back</item>
+    </style>
+
+
+</resources>

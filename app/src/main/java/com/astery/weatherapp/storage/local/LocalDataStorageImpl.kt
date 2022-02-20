@@ -1,12 +1,12 @@
 package com.astery.weatherapp.storage.local
 
 import com.astery.weatherapp.model.pogo.City
+import com.astery.weatherapp.model.pogo.Weather
 import com.astery.weatherapp.model.pogo.WeatherData
-import com.astery.weatherapp.model.pogo.WeatherEntity
-import com.astery.weatherapp.model.state.ResultError
-import com.astery.weatherapp.model.state.StateCompleted
-import com.astery.weatherapp.model.state.StateError
-import com.astery.weatherapp.model.state.StateResult
+import com.astery.weatherapp.model.state.Completed
+import com.astery.weatherapp.model.state.Error
+import com.astery.weatherapp.model.state.GotNothing
+import com.astery.weatherapp.model.state.Result
 import com.astery.weatherapp.storage.local.db.AppDatabase
 import com.astery.weatherapp.storage.local.db.dao.BaseDao
 import javax.inject.Inject
@@ -21,7 +21,7 @@ class LocalDataStorageImpl @Inject constructor(private val appDatabase: AppDatab
     }
 
     override suspend fun addWeatherData(weather: WeatherData) {
-        (appDatabase.weatherDao() as BaseDao<WeatherEntity>).insert(weather.weatherData)
+        (appDatabase.weatherDao() as BaseDao<Weather>).insert(weather.weatherData!!)
         (appDatabase.cityDao() as BaseDao<City>).insert((weather.city))
     }
 
@@ -29,10 +29,22 @@ class LocalDataStorageImpl @Inject constructor(private val appDatabase: AppDatab
         (appDatabase.cityDao() as BaseDao<City>).insert(city)
     }
 
-    override suspend fun getCity(lastId: String): StateResult<City> {
+    override suspend fun getCity(lastId: String): Result<City> {
         val city = appDatabase.cityDao().getCity(lastId)
         return if (city != null)
-            StateCompleted(city, true)
-        else StateError(ResultError.UnexpectedBug)
+            Completed(city, true)
+        else Error(Error.ResultError.UnexpectedBug)
+
+
+    }
+
+    override suspend fun getFavouriteCities(): Result<List<WeatherData>> {
+        val cities = appDatabase.cityDao().getFavourite(true)
+        if (cities.isEmpty()) return GotNothing()
+        val weatherData = mutableListOf<WeatherData>()
+        cities.forEach {
+            weatherData.add(WeatherData(it, null))
+        }
+        return Completed(weatherData, true)
     }
 }

@@ -3,14 +3,13 @@ package com.astery.weatherapp.storage.repository
 import com.astery.weatherapp.model.pogo.City
 import com.astery.weatherapp.model.pogo.Location
 import com.astery.weatherapp.model.pogo.WeatherData
-import com.astery.weatherapp.model.state.StateCompleted
-import com.astery.weatherapp.model.state.StateGotNothing
-import com.astery.weatherapp.model.state.StateResult
+import com.astery.weatherapp.model.state.Completed
+import com.astery.weatherapp.model.state.GotNothing
+import com.astery.weatherapp.model.state.Result
 import com.astery.weatherapp.storage.local.LocalDataStorage
 import com.astery.weatherapp.storage.preferences.LastCityId
 import com.astery.weatherapp.storage.preferences.Preferences
 import com.astery.weatherapp.storage.remote.RemoteDataStorage
-import timber.log.Timber
 import javax.inject.Inject
 import kotlin.reflect.KSuspendFunction1
 
@@ -19,7 +18,8 @@ class RepositoryImpl @Inject constructor(
     private val local: LocalDataStorage,
     private val prefs: Preferences
 ) : Repository {
-    override suspend fun getCurrentWeather(city: City): StateResult<WeatherData> {
+
+    override suspend fun getCurrentWeather(city: City): Result<WeatherData> {
         return getFromRemoteAndSave(
             city,
             remote::getCurrentWeather,
@@ -28,20 +28,20 @@ class RepositoryImpl @Inject constructor(
         )
     }
 
-    override suspend fun getCachedWeather(city: City): StateResult<WeatherData> {
+    override suspend fun getCachedWeather(city: City): Result<WeatherData> {
         local.getCurrentWeather(city)?.let {
-            return StateCompleted(it, true)
+            return Completed(it, true)
         }
-        return StateGotNothing()
+        return GotNothing()
     }
 
     /** get city by location or get the city from the last saved location from cache*/
-    override suspend fun getCity(location: Location): StateResult<City> {
+    override suspend fun getCity(location: Location): Result<City> {
         val result = getFromRemoteAndSave(
             location,
             remote::getCity, null, local::addCity
         )
-        return if (result !is StateCompleted<City>) {
+        return if (result !is Completed<City>) {
             val lastId = prefs.get(LastCityId(null))
             if (lastId == null) {
                 result
@@ -54,6 +54,8 @@ class RepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getFavouriteCities() = local.getFavouriteCities()
+
     /**
      * get from remote - save to local
      * if there is no data in remote - get from local
@@ -63,12 +65,12 @@ class RepositoryImpl @Inject constructor(
      * */
     private suspend fun <B, T> getFromRemoteAndSave(
         matcher: B, remoteGet:
-        KSuspendFunction1<B, StateResult<T>>, localGet: KSuspendFunction1<B, T?>?, localSet:
+        KSuspendFunction1<B, Result<T>>, localGet: KSuspendFunction1<B, T?>?, localSet:
         KSuspendFunction1<T, Unit>
-    ): StateResult<T> {
+    ): Result<T> {
         val remoteResult = remoteGet(matcher)
         // if got data from result - cache them
-        if (remoteResult is StateCompleted<T>) {
+        if (remoteResult is Completed<T>) {
             localSet(remoteResult.result)
             return remoteResult
         }
@@ -76,7 +78,7 @@ class RepositoryImpl @Inject constructor(
         // if not, get from local (if it possible)
         val result = localGet?.invoke(matcher)
         return if (result != null)
-            StateCompleted(result, true)
+            Completed(result, true)
         else
             remoteResult
 

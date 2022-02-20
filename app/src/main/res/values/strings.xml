@@ -21,5 +21,7 @@
     <string name="cd_weather_state_rain">Дождь</string>
     <string name="cd_weather_state_cloud">Облачно</string>
     <string name="cd_weather_state_empty">Погода: загружается</string>
+    <string name="TitleFav">Избранные города</string>
+    <string name="cd_back">back</string>
 
 </resources>

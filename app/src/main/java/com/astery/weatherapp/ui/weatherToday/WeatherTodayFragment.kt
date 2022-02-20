@@ -4,9 +4,8 @@ import androidx.core.view.isGone
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionManager
-import com.astery.weatherapp.app.appComponent
+import com.astery.weatherapp.app.di.appComponent
 import com.astery.weatherapp.databinding.WeatherFragmentBinding
-import com.astery.weatherapp.model.pogo.City
 import com.astery.weatherapp.model.pogo.WeatherData
 import com.astery.weatherapp.model.state.*
 import com.astery.weatherapp.ui.BaseFragment
@@ -20,9 +19,9 @@ import javax.inject.Inject
 class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
 
     private val locationProvider = LocationProvider(this)
-    private val city: City? by ArgumentsDelegate()
+    private val weather: WeatherData? by ArgumentsDelegate()
     private val viewModel: WeatherTodayViewModel by lazy {
-        factory.create(city, locationProvider)
+        factory.create(weather, locationProvider)
     }
 
     @Inject
@@ -49,19 +48,20 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
 
 
     // MARK: render
-    private inner class WeatherObserver : Observer<StateResult<WeatherData>> {
-        override fun onChanged(result: StateResult<WeatherData>?) {
+    private inner class WeatherObserver : Observer<Result<WeatherData>> {
+        override fun onChanged(result: Result<WeatherData>?) {
             Timber.d("${result!!::class.simpleName}")
             when (result) {
-                is StateIdle -> renderLoading()
-                is StateLoading -> renderLoading()
-                is StateCompleted<*> -> renderComplete(
+                is Idle -> renderLoading()
+                is Loading -> renderLoading()
+                is Completed<*> -> renderComplete(
                     WeatherDataForUI(
                         requireContext(),
-                        result.result as WeatherData
+                        (result.result as WeatherData).weatherData!!,
+                        result.result.city
                     )
                 )
-                is StateError -> renderError(result.error)
+                is Error -> renderError(result.error)
                 else -> throw IllegalStateException("got invalid result state ${result::class.simpleName}")
             }
         }
@@ -74,7 +74,7 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
         private fun renderComplete(weather: WeatherDataForUI) {
             renderChangeVisibility(false)
             bind.run {
-                city.text = weather.city
+                city.text = weather.cityName
                 temperature.text = weather.temperature
                 feelTemperature.text = weather.feelsLike
                 pressure.text = weather.pressure
@@ -89,11 +89,12 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
             }
         }
 
-        private fun renderError(t: ResultError) {
+        private fun renderError(t: Error.ResultError) {
             Timber.d("got error ${t.name}")
-            when(t){
-                ResultError.PermissionDenied -> moveToSearch()
-                else -> {}
+            when (t) {
+                Error.ResultError.PermissionDenied -> /*moveToSearch()*/ moveToFavourite()
+                else -> {
+                }
             }
         }
 

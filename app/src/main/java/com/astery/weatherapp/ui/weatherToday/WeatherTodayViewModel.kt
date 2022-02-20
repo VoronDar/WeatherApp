@@ -14,14 +14,15 @@ import java.util.*
 import javax.inject.Inject
 
 class WeatherTodayViewModel constructor(
-    private var city: City?,
+    private var w: WeatherData?,
     private val locationProvider: LocationProvider,
     private val repository: Repository
 ) :
     ViewModel() {
 
-    private val _weather: MutableLiveData<StateResult<WeatherData>> = MutableLiveData(StateIdle())
-    val weather: LiveData<StateResult<WeatherData>>
+    private val _weather: MutableLiveData<Result<WeatherData>> =
+        MutableLiveData(Idle())
+    val weather: LiveData<Result<WeatherData>>
         get() = _weather
 
     init {
@@ -35,11 +36,11 @@ class WeatherTodayViewModel constructor(
             }
 
             override fun onPermissionDenied() {
-                _weather.value = StateError(ResultError.PermissionDenied)
+                _weather.value = Error(Error.ResultError.PermissionDenied)
             }
 
             override fun onFailure() {
-                _weather.value = StateError(ResultError.PermissionDenied)
+                _weather.value = Error(Error.ResultError.PermissionDenied)
             }
         })
     }
@@ -48,11 +49,13 @@ class WeatherTodayViewModel constructor(
     private fun getCity(location: Location) {
         viewModelScope.launch {
             val cityResult = repository.getCity(location)
-            if (cityResult is StateCompleted) {
-                city = cityResult.result
+            if (cityResult is Completed) {
+                w = WeatherData(
+                    cityResult.result, w?.weatherData
+                )
                 getWeatherData()
             } else {
-                _weather.value = StateError(ResultError.InvalidCity)
+                _weather.value = Error(Error.ResultError.InvalidCity)
             }
         }
     }
@@ -61,25 +64,25 @@ class WeatherTodayViewModel constructor(
     private fun getWeatherData() {
         viewModelScope.launch {
 
-            if (city == null) {
+            if (w == null) {
                 getGeolocation()
                 return@launch
             }
 
-            if (_weather.value is StateIdle) {
-                _weather.value = StateLoading()
+            if (_weather.value is Idle) {
+                _weather.value = Loading()
 
-                async{
-                    val value = repository.getCachedWeather(city!!)
-                    if (_weather.value !is StateCompleted && value is StateCompleted) {
+                async {
+                    val value = repository.getCachedWeather(w!!.city)
+                    if (_weather.value !is Completed && value is Completed) {
                         Timber.d("got weather from cache")
                         _weather.value = value
                     }
                 }
 
                 async {
-                    val value = repository.getCurrentWeather(city!!)
-                    if (value is StateCompleted || _weather.value !is StateCompleted) {
+                    val value = repository.getCurrentWeather(w!!.city)
+                    if (value is Completed || _weather.value !is Completed) {
                         Timber.d("tried to get actual")
                         _weather.value = value
                     }
@@ -91,8 +94,11 @@ class WeatherTodayViewModel constructor(
     }
 
     class Factory @Inject constructor(private val repository: Repository) {
-        fun create(city: City?, locationProvider: LocationProvider): WeatherTodayViewModel =
-            WeatherTodayViewModel(city, locationProvider, repository)
+        fun create(
+            weather: WeatherData?,
+            locationProvider: LocationProvider
+        ): WeatherTodayViewModel =
+            WeatherTodayViewModel(weather, locationProvider, repository)
     }
 }
 

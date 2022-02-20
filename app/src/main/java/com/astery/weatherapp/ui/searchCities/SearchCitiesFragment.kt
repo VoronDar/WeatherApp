@@ -2,7 +2,7 @@ package com.astery.weatherapp.ui.searchCities
 
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.astery.weatherapp.app.appComponent
+import com.astery.weatherapp.app.di.appComponent
 import com.astery.weatherapp.databinding.SearchCitiesFragmentBinding
 import com.astery.weatherapp.model.pogo.City
 import com.astery.weatherapp.ui.BaseFragment
