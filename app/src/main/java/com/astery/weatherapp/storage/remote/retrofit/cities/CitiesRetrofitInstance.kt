@@ -1,6 +1,6 @@
 package com.astery.weatherapp.storage.remote.retrofit.cities
 
-import com.astery.weatherapp.storage.remote.retrofit.weather.WeatherApi
+import com.astery.weatherapp.BuildConfig
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -23,7 +23,7 @@ class CitiesRetrofitInstance @Inject constructor() {
 
 
         Retrofit.Builder()
-            .baseUrl(BASE_URL)
+            .baseUrl(BuildConfig.WEATHER_API_URL)
             .client(httpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
@@ -33,6 +33,4 @@ class CitiesRetrofitInstance @Inject constructor() {
     val api: CitiesApi by lazy {
         retrofit.create(CitiesApi::class.java)
     }
-
-    private val BASE_URL = ""
 }

@@ -5,6 +5,7 @@ import com.astery.weatherapp.app.App
 import com.astery.weatherapp.storage.local.LocalDataStorage
 import com.astery.weatherapp.storage.local.LocalDataStorageImpl
 import com.astery.weatherapp.storage.local.db.AppDatabase
+import com.astery.weatherapp.storage.preferences.Preferences
 import com.astery.weatherapp.storage.remote.RemoteDataStorage
 import com.astery.weatherapp.storage.remote.RemoteDataStorageImpl
 import com.astery.weatherapp.storage.remote.retrofit.weather.WeatherRetrofitInstance
@@ -48,6 +49,11 @@ class ContextDependAppModule(private val context: Context) {
     @Provides
     fun provideAppDatabase():AppDatabase{
         return AppDatabase.getDatabase(context)
+    }
+
+    @Provides
+    fun providePreferences(): Preferences {
+        return Preferences(context)
     }
 
 }

@@ -1,17 +1,16 @@
 package com.astery.weatherapp.storage.remote.retrofit.weather
 
+import com.google.gson.annotations.SerializedName
 import retrofit2.http.GET
-import retrofit2.http.Header
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface WeatherApi {
-    @GET("weather")
+    @GET("currentconditions/v1/{key}")
     suspend fun getWeather(
-        @Header("x-rapidapi-host") host: String, @Header("x-rapidapi-key") key: String,
-        @Query("q") city: String, @Query("lang") lang: String, @Query("units") units: String
-    ): WeatherApiEntity
-}
-
-class WeatherApiEntity{
-
+        @Path("key") key: String,
+        @Query("apikey") api: String,
+        @Query("details") details: Boolean,
+        @Query("language") language: String
+    ): List<WeatherApiEntity>
 }
