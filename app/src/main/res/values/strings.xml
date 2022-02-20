@@ -6,6 +6,7 @@
     <string name="humidity">%,.2f %%</string>
     <string name="windSpeed">%,.2f м/c</string>
     <string name="pressure">%,.2f мc</string>
+    <string name="date">%d.%d.%d: %d:%d</string>
 
     <string name="cd_weather_humidity">Влажность воздуха</string>
     <string name="cd_weather_windSpeed">Скорость ветра</string>
@@ -20,4 +21,5 @@
     <string name="cd_weather_state_rain">Дождь</string>
     <string name="cd_weather_state_cloud">Облачно</string>
     <string name="cd_weather_state_empty">Погода: загружается</string>
+
 </resources>
