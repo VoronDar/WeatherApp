@@ -5,10 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.astery.weatherapp.model.pogo.City
-import com.astery.weatherapp.model.pogo.WeatherData
+import com.astery.weatherapp.model.pogo.WeatherEntity
 
 @Database(
-    entities = [City::class, WeatherData::class],
+    entities = [City::class, WeatherEntity::class],
     version = 1,
     exportSchema = false
 )

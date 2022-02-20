@@ -4,12 +4,15 @@ import android.app.Application
 import android.content.Context
 import com.astery.weatherapp.BuildConfig
 import com.astery.weatherapp.app.di.ApplicationComponent
+import com.astery.weatherapp.app.di.ContextDependAppModule
 import com.astery.weatherapp.app.di.DaggerApplicationComponent
 import timber.log.Timber
 
 class App: Application() {
     val appComponent:ApplicationComponent by lazy{
-        DaggerApplicationComponent.builder().build()
+        DaggerApplicationComponent.builder()
+            .contextDependAppModule(ContextDependAppModule(this))
+            .build()
     }
 
     override fun onCreate() {

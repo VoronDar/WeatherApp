@@ -27,7 +27,7 @@ abstract class BaseFragment<B : ViewBinding> : Fragment() {
     /** start observe viewModel variables */
     protected abstract fun setViewModelListeners()
     /** attach adapters to recyclerView, set onClickListeners */
-    protected fun prepareUI(){}
+    protected open fun prepareUI(){}
 
 
     final override fun onCreate(savedInstanceState: Bundle?) {

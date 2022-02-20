@@ -1,6 +1,7 @@
 package com.astery.weatherapp.app.di
 
 import android.content.Context
+import com.astery.weatherapp.app.App
 import com.astery.weatherapp.storage.local.LocalDataStorage
 import com.astery.weatherapp.storage.local.LocalDataStorageImpl
 import com.astery.weatherapp.storage.local.db.AppDatabase
@@ -19,7 +20,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [ApplicationModule::class])
+@Component(modules = [ApplicationModule::class, ContextDependAppModule::class])
 interface ApplicationComponent {
     fun inject(fragment: WeatherTodayFragment)
     fun inject(fragment: FavCitiesFragment)
@@ -27,15 +28,27 @@ interface ApplicationComponent {
 }
 
 @Module
-abstract class ApplicationModule(private val context: Context) {
+interface ApplicationModule{
 
     @Binds
-    abstract fun bindRepository(repository: RepositoryImpl): Repository
+    fun bindRepository(repository: RepositoryImpl): Repository
 
     @Binds
-    abstract fun bindLocalStorage(storage: LocalDataStorageImpl): LocalDataStorage
+    fun bindLocalStorage(storage: LocalDataStorageImpl): LocalDataStorage
 
     @Binds
-    abstract fun bindRemoteStorage(storage: RemoteDataStorageImpl): RemoteDataStorage
+    fun bindRemoteStorage(storage: RemoteDataStorageImpl): RemoteDataStorage
+
 
 }
+
+
+@Module
+class ContextDependAppModule(private val context: Context) {
+    @Provides
+    fun provideAppDatabase():AppDatabase{
+        return AppDatabase.getDatabase(context)
+    }
+
+}
+
