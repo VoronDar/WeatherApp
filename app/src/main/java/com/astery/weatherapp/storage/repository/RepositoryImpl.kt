@@ -56,6 +56,18 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun getFavouriteCities() = local.getFavouriteCities()
 
+    override suspend fun getCities(searchQuery: String): Result<List<WeatherData>> {
+        val result = remote.getCities(searchQuery)
+        if (result is Completed) return result
+        return local.getCities(searchQuery)
+    }
+
+    override suspend fun getCities(): Result<List<WeatherData>> {
+        val result = remote.getTopCities()
+        if (result is Completed) return result
+        return local.getCities()
+    }
+
     /**
      * get from remote - save to local
      * if there is no data in remote - get from local

@@ -1,21 +1,16 @@
 package com.astery.weatherapp.ui.favCities
 
 import androidx.lifecycle.*
-import com.astery.weatherapp.model.pogo.City
-import com.astery.weatherapp.model.pogo.Weather
 import com.astery.weatherapp.model.pogo.WeatherData
 import com.astery.weatherapp.model.state.Completed
 import com.astery.weatherapp.model.state.Idle
 import com.astery.weatherapp.model.state.Result
 import com.astery.weatherapp.storage.repository.Repository
-import com.astery.weatherapp.ui.weatherToday.LocationProvider
-import com.astery.weatherapp.ui.weatherToday.WeatherTodayViewModel
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
-import javax.inject.Provider
 
-class FavCitiesViewModel (private val repository: Repository) : ViewModel() {
+class FavCitiesViewModel(private val repository: Repository) : ViewModel() {
 
     private val _cities: MutableLiveData<Result<List<WeatherData>>> =
         MutableLiveData(Idle())

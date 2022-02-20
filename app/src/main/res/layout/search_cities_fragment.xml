@@ -1,7 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/down">
+
+    <View
+        android:id="@+id/upper_place"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:alpha="0.1"
+        android:background="@color/on_background"
+        android:importantForAccessibility="no"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/title"
+        style="@style/titleCard"
+        android:layout_width="match_parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout style="@style/titleLayout">
+
+            <ImageButton
+                android:id="@+id/back"
+                android:src = "@drawable/ic_back"
+                style="@style/backButton" />
+
+            <EditText
+                android:id = "@+id/searchText"
+                style="@style/highlightText"
+                android:maxLines="1"
+                android:hint = "Поиск" />
+            <ImageButton
+                android:id="@+id/search"
+                android:src = "@drawable/ic_baseline_search_24"
+                style="@style/backButton" />
+
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id = "@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/work_shape"
+        android:clipToPadding="false"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

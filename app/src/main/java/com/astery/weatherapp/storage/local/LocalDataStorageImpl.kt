@@ -39,7 +39,18 @@ class LocalDataStorageImpl @Inject constructor(private val appDatabase: AppDatab
     }
 
     override suspend fun getFavouriteCities(): Result<List<WeatherData>> {
-        val cities = appDatabase.cityDao().getFavourite(true)
+        return getCities(appDatabase.cityDao().getFavourite(true))
+    }
+
+    override suspend fun getCities(): Result<List<WeatherData>> {
+        return getCities(appDatabase.cityDao().getCities())
+    }
+    override suspend fun getCities(searchQuery: String): Result<List<WeatherData>> {
+        return getCities(appDatabase.cityDao().getCities(searchQuery))
+    }
+
+
+    private fun getCities(cities:List<City>):Result<List<WeatherData>>{
         if (cities.isEmpty()) return GotNothing()
         val weatherData = mutableListOf<WeatherData>()
         cities.forEach {
@@ -47,4 +58,5 @@ class LocalDataStorageImpl @Inject constructor(private val appDatabase: AppDatab
         }
         return Completed(weatherData, true)
     }
+
 }

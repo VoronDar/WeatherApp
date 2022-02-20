@@ -92,7 +92,7 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
         private fun renderError(t: Error.ResultError) {
             Timber.d("got error ${t.name}")
             when (t) {
-                Error.ResultError.PermissionDenied -> /*moveToSearch()*/ moveToFavourite()
+                Error.ResultError.PermissionDenied -> moveToSearch()
                 else -> {
                 }
             }

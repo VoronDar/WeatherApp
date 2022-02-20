@@ -26,8 +26,8 @@
             android:id="@+id/action_searchCitiesFragment_to_weatherTodayFragment"
             app:destination="@id/weatherTodayFragment">
             <argument
-                android:name="city"
-                app:argType="com.astery.weatherapp.model.pogo.City" />
+                android:name="weather"
+                app:argType="com.astery.weatherapp.model.pogo.WeatherData" />
         </action>
     </fragment>
     <fragment

@@ -75,7 +75,9 @@
     <style name="backButton" parent="icon">
         <item name="android:layout_margin">8dp</item>
         <item name="android:contentDescription">@string/cd_back</item>
+        <item name="android:scaleType">fitCenter</item>
         <item name="android:src">@drawable/ic_back</item>
+        <item name="android:padding">-8dp</item>
     </style>
 
 

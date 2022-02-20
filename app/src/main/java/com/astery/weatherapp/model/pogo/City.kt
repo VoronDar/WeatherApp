@@ -1,10 +1,7 @@
 package com.astery.weatherapp.model.pogo
 
 import android.os.Parcelable
-import androidx.room.ColumnInfo
-import androidx.room.Embedded
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import androidx.room.*
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
@@ -23,3 +20,8 @@ data class City(
     ) : Parcelable
 
 }
+
+
+@Entity
+@Fts4(contentEntity = City::class)
+data class CityFts(val name: String)

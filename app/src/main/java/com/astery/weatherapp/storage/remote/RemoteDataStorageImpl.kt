@@ -41,14 +41,48 @@ class RemoteDataStorageImpl @Inject constructor(
                 true,
                 "${location.latitude},${location.longitude}"
             )
-            if (it.id == "null") Error(Error.ResultError.UnexpectedBug)
-            else Completed(it, false)
+            Completed(it, false)
         } catch (e: Exception) {
             Timber.d("caught an exception ${e::class.simpleName} ${e.localizedMessage}")
             Error(Error.ResultError.UnexpectedBug)
         }
     }
 
+    override suspend fun getTopCities(): Result<List<WeatherData>> {
+        return try {
+            val it = citiesRetrofit.api.getTopCities(
+                50,
+                key,
+                lang
+            )
+            convertCityToWeatherData(it)
+        } catch (e: Exception) {
+            Timber.d("caught an exception ${e::class.simpleName} ${e.localizedMessage}")
+            Error(Error.ResultError.UnexpectedBug)
+        }
+    }
+
+    private fun convertCityToWeatherData(it: List<City>): Completed<List<WeatherData>> {
+        val data: MutableList<WeatherData> = ArrayList()
+        it.forEach {
+            data.add(WeatherData(it, null))
+        }
+        return Completed(data, false)
+    }
+
+    override suspend fun getCities(searchQuery: String): Result<List<WeatherData>> {
+        return try {
+            val it = citiesRetrofit.api.citySearch(
+                key,
+                lang,
+                searchQuery,
+            )
+            return convertCityToWeatherData(it)
+        } catch (e: Exception) {
+            Timber.d("caught an exception ${e::class.simpleName} ${e.localizedMessage}")
+            Error(Error.ResultError.UnexpectedBug)
+        }
+    }
 
     private val key = BuildConfig.WEATHER_API_KEY
     private val lang = "ru"
