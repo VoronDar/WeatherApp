@@ -1,5 +1,23 @@
 <resources>
     <string name="app_name">WeatherApp</string>
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="favourite">Избранные</string>
+    <string name="feels_like">ощущается как</string>
+    <string name="temperature">%,.2f \u00B0С</string>
+    <string name="humidity">%,.2f %%</string>
+    <string name="windSpeed">%,.2f м/c</string>
+    <string name="pressure">%,.2f мc</string>
+
+    <string name="cd_weather_humidity">Влажность воздуха</string>
+    <string name="cd_weather_windSpeed">Скорость ветра</string>
+    <string name="cd_weather_pressure">Атмосферное давление</string>
+
+    <string name="cd_search_icon">Найти другие города</string>
+    <string name="cd_geo_icon">Изменить настройки геолокации</string>
+    <string name="cd_fav_icon">Добавить город в избранные</string>
+
+    <string name="cd_weather_state_sun">Солнечно</string>
+    <string name="cd_weather_state_snow">Снег</string>
+    <string name="cd_weather_state_rain">Дождь</string>
+    <string name="cd_weather_state_cloud">Облачно</string>
+    <string name="cd_weather_state_empty">Погода: загружается</string>
 </resources>

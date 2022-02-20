@@ -15,6 +15,11 @@
         <item name="android:textViewStyle">@style/regularText</item>
     </style>
 
+    <style name="Theme.WeatherApp.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
     <style name="icon">
         <item name="android:layout_width">@dimen/icon_size</item>
         <item name="android:layout_height">@dimen/icon_size</item>
@@ -24,7 +29,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="backgroundTint">@color/down</item>
-        <item name="android:textColor">@color/onDown</item>
+        <item name="android:textColor">@color/on_down</item>
         <item name="android:textSize">@dimen/button_text_size</item>
         <item name="cornerRadius">@dimen/small_corner_radius</item>
         <item name="android:fontFamily">@font/heebo_black</item>
@@ -35,7 +40,7 @@
         <item name="android:layout_weight">1</item>
         <item name="android:textAlignment">textStart</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/onBackground</item>
+        <item name="android:textColor">@color/on_background</item>
         <item name="android:textSize">@dimen/regular_text_size</item>
         <item name="android:fontFamily">@font/heebo_regular</item>
     </style>
@@ -43,10 +48,23 @@
     <style name="helperText" >
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/helperText</item>
+        <item name="android:textColor">@color/helper_text</item>
         <item name="android:textSize">@dimen/small_text_size</item>
         <item name="android:fontFamily">@font/heebo_regular</item>
     </style>
+
+    <style name="state_text" parent="regularText">
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="layout_constraintHorizontal_bias">0</item>
+
+    </style>
+    <style name="state_icon" parent="icon">
+        <item name="android:layout_marginTop">32dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+    </style>
+
+
 
 
 </resources>

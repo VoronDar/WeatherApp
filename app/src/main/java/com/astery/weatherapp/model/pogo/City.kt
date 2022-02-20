@@ -7,4 +7,4 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 @Entity
-data class City(@PrimaryKey val id:Int):Parcelable
+data class City(@PrimaryKey val id:Int, val name:String, val longitude:Double, val latitude:Double):Parcelable

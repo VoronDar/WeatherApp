@@ -27,7 +27,7 @@
             app:destination="@id/weatherTodayFragment">
             <argument
                 android:name="city"
-                app:argType="com.astery.weatherapp.model.City" />
+                app:argType="com.astery.weatherapp.model.pogo.City" />
         </action>
     </fragment>
     <fragment
@@ -40,7 +40,7 @@
             app:destination="@id/weatherTodayFragment">
             <argument
                 android:name="city"
-                app:argType="com.astery.weatherapp.model.City" />
+                app:argType="com.astery.weatherapp.model.pogo.City" />
         </action>
     </fragment>
 </navigation>
