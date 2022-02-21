@@ -23,5 +23,6 @@
     <string name="cd_weather_state_empty">Погода: загружается</string>
     <string name="TitleFav">Избранные города</string>
     <string name="cd_back">back</string>
+    <string name="search_city_hint">Найти город</string>
 
 </resources>

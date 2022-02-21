@@ -24,18 +24,24 @@
 
             <ImageButton
                 android:id="@+id/back"
-                android:src = "@drawable/ic_back"
-                style="@style/backButton" />
+                style="@style/backButton"
+                android:src="@drawable/ic_back" />
 
             <EditText
-                android:id = "@+id/searchText"
+                android:id="@+id/searchText"
                 style="@style/highlightText"
+                android:imeOptions="actionDone"
+                android:singleLine="true"
                 android:maxLines="1"
-                android:hint = "Поиск" />
+                android:backgroundTint="@color/icon_on_background"
+                android:hint="@string/search_city_hint"
+                android:inputType="textAutoComplete"
+                android:importantForAutofill="no" />
+
             <ImageButton
                 android:id="@+id/search"
-                android:src = "@drawable/ic_baseline_search_24"
-                style="@style/backButton" />
+                style="@style/backButton"
+                android:src="@drawable/ic_baseline_search_24" />
 
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>

@@ -1,5 +1,8 @@
 package com.astery.weatherapp.ui.searchCities
 
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -44,7 +47,17 @@ class SearchCitiesFragment : BaseFragment<SearchCitiesFragmentBinding>() {
     }
 
     override fun prepareUI() {
+        bind.back.setOnClickListener { activity?.onBackPressed() }
+        bind.searchText.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                bind.search.performClick()
+                false
+            } else false
+        }
+
+
         bind.search.setOnClickListener {
+            hideSearchKeyboard()
             viewModel.getCities(bind.searchText.text.toString())
         }
     }
@@ -55,6 +68,13 @@ class SearchCitiesFragment : BaseFragment<SearchCitiesFragmentBinding>() {
                 city
             )
         )
+    }
+
+
+    private fun hideSearchKeyboard() {
+        val imm =
+            activity?.getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager?
+        imm?.hideSoftInputFromWindow(bind.searchText.windowToken, 0)
     }
 
     // MARK: render
