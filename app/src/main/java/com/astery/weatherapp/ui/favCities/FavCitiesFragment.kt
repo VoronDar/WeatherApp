@@ -23,6 +23,10 @@ class FavCitiesFragment : BaseFragment<FavCitiesFragmentBinding>() {
         return FavCitiesFragmentBinding::inflate
     }
 
+    override fun prepareUI() {
+        bind.back.setOnClickListener { activity?.onBackPressed() }
+    }
+
     override fun inject() {
         context?.appComponent?.inject(this)
     }
