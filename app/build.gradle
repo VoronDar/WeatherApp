@@ -6,7 +6,6 @@ plugins {
     id 'kotlin-parcelize'
 }
 
-// some dagger features
 kapt{
     arguments{
         arg("dagger.fastInit", "enabled")
@@ -40,7 +39,7 @@ android {
         }
 
         debug{
-            buildConfigField "String", "WEATHER_API_KEY", "\"voWGHgvG88ky33yvXOooJ5dB6YnTkl8W\""
+            buildConfigField "String", "WEATHER_API_KEY", "\"OFunPbtJMlO7TupEHP51ueKxLTNWWxDd\""
             buildConfigField "String", "WEATHER_API_URL", "\"http://dataservice.accuweather.com/\""
         }
     }

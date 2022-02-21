@@ -105,6 +105,12 @@
         android:background="@drawable/work_shape"
         app:layout_constraintBottom_toBottomOf="parent"
         >
+        <androidx.constraintlayout.widget.Group
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/weatherGroup"
+            app:constraint_referenced_ids="temperature,feel_temperature,helper,fav_icon, humidity, humidity_icon, windSpeed, wind_icon, pressure, pressure_icon"/>
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@id/middle"
             android:layout_width="match_parent"

@@ -103,23 +103,9 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
             val sharedAxis = MaterialSharedAxis(MaterialSharedAxis.Y, true)
             TransitionManager.beginDelayedTransition(bind.workPanel, sharedAxis)
             TransitionManager.beginDelayedTransition(bind.root, sharedAxis)
-
-            bind.run {
-                city.isGone = isGone
-                temperature.isGone = isGone
-                helper.isGone = isGone
-                feelTemperature.isGone = isGone
-                pressure.isGone = isGone
-                humidity.isGone = isGone
-                windSpeed.isGone = isGone
-                time.isGone = isGone
-                favIcon.isGone = isGone
-                weatherState.isGone = isGone
-                weatherStateBackground.isGone = isGone
-                humidityIcon.isGone = isGone
-                pressureIcon.isGone = isGone
-                windIcon.isGone = isGone
-            }
+            bind.weatherGroup.isGone = isGone
+            bind.weatherState.isGone = isGone
+            bind.weatherStateBackground.isGone = isGone
 
         }
     }
