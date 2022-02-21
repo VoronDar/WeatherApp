@@ -1,4 +1,4 @@
-package com.astery.weatherapp.ui.adapterUtils
+package com.astery.weatherapp.ui.base.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -15,5 +15,12 @@ abstract class BaseAdapter<R>(units: List<R>, diffUtil: DiffUtil.ItemCallback<R>
         set(value) {
         submitList(units)
         field = value
+    }
+
+    protected fun removeItem(position: Int){
+        val currentList = currentList.toMutableList()
+        currentList.removeAt(position)
+        submitList(currentList)
+
     }
 }

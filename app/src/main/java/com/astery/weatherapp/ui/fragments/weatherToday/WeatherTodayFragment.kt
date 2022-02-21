@@ -1,4 +1,4 @@
-package com.astery.weatherapp.ui.weatherToday
+package com.astery.weatherapp.ui.fragments.weatherToday
 
 import android.content.Context
 import android.content.Intent
@@ -13,8 +13,8 @@ import com.astery.weatherapp.databinding.BottomShiftGeoDialogueBinding
 import com.astery.weatherapp.databinding.WeatherFragmentBinding
 import com.astery.weatherapp.model.pogo.WeatherData
 import com.astery.weatherapp.model.state.*
-import com.astery.weatherapp.ui.BaseFragment
-import com.astery.weatherapp.ui.BindingInflater
+import com.astery.weatherapp.ui.base.BaseFragment
+import com.astery.weatherapp.ui.base.BindingInflater
 import com.astery.weatherapp.ui.loadState.LoadStateView
 import com.astery.weatherapp.ui.utils.ArgumentsDelegate
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -45,6 +45,7 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
     // MARK: listeners
     override fun setViewModelListeners() {
         viewModel.weather.observe(viewLifecycleOwner, WeatherObserver())
+        viewModel.getActualFavourite()
     }
 
     override fun prepareUI() {
@@ -84,7 +85,6 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
         private fun renderLoading() {
             bind.loadingStateView.changeState(LoadStateView.StateLoading())
             renderChangeVisibility(true)
-
         }
 
         private fun renderComplete(weather: WeatherDataForUI) {
@@ -98,11 +98,14 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
                 pressure.text = weather.pressure
                 humidity.text = weather.humidity
                 windSpeed.text = weather.windSpeed
-                // TODO(favIcon = )
                 time.text = weather.timestamp
                 weatherState.setImageDrawable(weather.weatherIcon)
                 weatherState.contentDescription = weather.weatherState
                 weatherStateBackground.setImageDrawable(weather.weathericonBackground)
+                favIcon.init(weather.isCityFav) { isFavourite ->
+                    viewModel.changeSelectedCityFav(isFavourite)
+                }
+
             }
         }
 

@@ -1,4 +1,4 @@
-package com.astery.weatherapp.ui.adapterUtils
+package com.astery.weatherapp.ui.base.adapter
 
 import android.graphics.Rect
 import android.view.View

@@ -60,7 +60,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"/>
-    <com.astery.weatherapp.ui.loadState.LoadStateView
+    <com.astery.weatherapp.ui.customViews.loadState.LoadStateView
         android:id = "@+id/loadStateView"
         android:visibility="gone"
         android:layout_width="match_parent"

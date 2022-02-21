@@ -65,18 +65,34 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun getCities(searchQuery: String): Result<List<WeatherData>> {
         val result = remote.getCities(searchQuery)
-        if (result is Completed) return result
+        if (result is Completed) {
+            result.result.forEach {
+                it.city.isFavourite = local.isFavourite(it.city)
+            }
+            return result
+        }
         return local.getCities(searchQuery)
     }
 
     override suspend fun getCities(): Result<List<WeatherData>> {
         val result = remote.getTopCities()
-        if (result is Completed) return result
+        if (result is Completed){
+            result.result.forEach {
+                it.city.isFavourite = local.isFavourite(it.city)
+            }
+            return result
+        }
         return local.getCities()
     }
 
-    override suspend fun setLastViewedCity(city: City) {
-        prefs.set(LastCityId(city.id))
+
+    override suspend fun changeCityFavouriteState(city: City) {
+        local.changeCityFavouriteState(city)
+    }
+
+    override suspend fun isCityFavourite(city: City): Boolean {
+        return local.isFavourite(city)?: false
+
     }
 
     /**

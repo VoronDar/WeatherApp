@@ -1,4 +1,4 @@
-package com.astery.weatherapp.ui.favCities
+package com.astery.weatherapp.ui.fragments.favCities
 
 import androidx.lifecycle.*
 import com.astery.weatherapp.model.pogo.WeatherData
@@ -6,12 +6,13 @@ import com.astery.weatherapp.model.state.Completed
 import com.astery.weatherapp.model.state.Idle
 import com.astery.weatherapp.model.state.Result
 import com.astery.weatherapp.storage.repository.Repository
+import com.astery.weatherapp.ui.fragments.baseChangeFav.ChangeFavViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
-class FavCitiesViewModel(private val repository: Repository, private val dispatcher: CoroutineDispatcher) : ViewModel() {
+class FavCitiesViewModel(repository: Repository,  dispatcher: CoroutineDispatcher) : ChangeFavViewModel(repository, dispatcher) {
 
     private val _cities: MutableLiveData<Result<List<WeatherData>>> =
         MutableLiveData(Idle())

@@ -1,14 +1,15 @@
-package com.astery.weatherapp.ui.weatherToday
+package com.astery.weatherapp.ui.fragments.weatherToday
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.astery.weatherapp.model.pogo.*
 import com.astery.weatherapp.model.state.*
 import com.astery.weatherapp.storage.repository.Repository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers.IO
+import com.astery.weatherapp.ui.fragments.baseChangeFav.ChangeFavViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -18,10 +19,10 @@ import javax.inject.Inject
 class WeatherTodayViewModel constructor(
     private var w: WeatherData?,
     private val locationProvider: LocationProvider,
-    private val repository: Repository,
-    private val dispatcher: CoroutineDispatcher
+    repository: Repository,
+    dispatcher: CoroutineDispatcher
 ) :
-    ViewModel() {
+    ChangeFavViewModel(repository, dispatcher) {
 
     private val _weather: MutableLiveData<Result<WeatherData>> =
         MutableLiveData(Idle())
@@ -39,7 +40,8 @@ class WeatherTodayViewModel constructor(
             }
 
             override fun onPermissionDenied() {
-                _weather.postValue(Error(Error.ResultError.PermissionDenied))
+                Timber.d("permission denied")
+                getLastViewedCity()
             }
         })
     }
@@ -122,7 +124,7 @@ class WeatherTodayViewModel constructor(
             _weather.value = Error(Error.ResultError.PermissionDenied)
 
     }
-               
+
 
     class Factory @Inject constructor(private val repository: Repository) {
         fun create(
@@ -132,4 +134,3 @@ class WeatherTodayViewModel constructor(
             WeatherTodayViewModel(weather, locationProvider, repository, dispatcher)
     }
 }
-           
