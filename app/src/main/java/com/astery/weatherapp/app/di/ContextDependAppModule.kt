@@ -5,6 +5,8 @@ import com.astery.weatherapp.storage.local.db.AppDatabase
 import com.astery.weatherapp.storage.preferences.Preferences
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 
 @Module
 class ContextDependAppModule(private val context: Context) {
@@ -18,5 +20,9 @@ class ContextDependAppModule(private val context: Context) {
         return Preferences(context)
     }
 
-}
+    @Provides
+    fun provideDispatcher(): CoroutineDispatcher {
+        return Dispatchers.IO
+    }
 
+}

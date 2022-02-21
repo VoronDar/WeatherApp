@@ -1,11 +1,12 @@
-package com.astery.weatherapp.ui.citiesList
+package com.astery.weatherapp.ui.fragments.citiesList
 
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.astery.weatherapp.model.pogo.WeatherData
 import com.astery.weatherapp.model.state.*
-import com.astery.weatherapp.ui.loadState.LoadStateView
+import com.astery.weatherapp.ui.base.adapter.MarginItemDecoration
+import com.astery.weatherapp.ui.customViews.loadState.LoadStateView
 
 /** render for fragment with cities list */
 class CitiesObserver(
@@ -48,6 +49,9 @@ class CitiesObserver(
             LinearLayoutManager(recyclerView.context!!, RecyclerView.VERTICAL, false)
         adapter.submitList(weather)
         recyclerView.adapter = adapter
+        recyclerView.addItemDecoration(
+            MarginItemDecoration()
+        )
     }
 
 }

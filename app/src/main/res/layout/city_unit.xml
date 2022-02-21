@@ -10,14 +10,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center">
-    <ImageButton
+    <View
         style="@style/backButton"
+        android:background="@drawable/ic_back"
         />
 
     <TextView
         style="@style/regularText"
         android:id = "@+id/name"
-        android:text="Москва"
         />
 
     <ImageView
@@ -25,20 +25,21 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:scaleType="fitCenter"
-        android:layout_margin = "16dp"
+        android:layout_margin = "@dimen/margin"
         />
-    <ImageButton
+    <com.astery.weatherapp.ui.customViews.favImageButton.FavImageButton
         android:id = "@+id/fav_icon"
-        style="@style/icon"
-        android:layout_marginEnd = "16dp"
-        android:src = "@drawable/ic_baseline_star_24"
+        android:layout_marginEnd = "@dimen/margin"
+        android:layout_height="@dimen/icon_size"
+        android:layout_width="@dimen/icon_size"
         />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:background="@color/icon_on_background"/>
+        android:layout_marginTop="4dp"
+        android:layout_marginLeft="@dimen/margin"
+        android:layout_marginRight="@dimen/margin"
+        android:background="@color/divider"/>
 </LinearLayout>

@@ -55,6 +55,13 @@ class LocalDataStorageImpl @Inject constructor(private val appDatabase: AppDatab
         return getCities(appDatabase.cityDao().getCities(searchQuery))
     }
 
+    override suspend fun changeCityFavouriteState(city: City) {
+        (appDatabase.cityDao() as BaseDao<City>).insert(city)
+    }
+
+    override suspend fun isFavourite(city: City): Boolean? {
+        return appDatabase.cityDao().isFavourite(city.id)
+    }
 
     private fun getCities(cities:List<City>):Result<List<WeatherData>>{
         if (cities.isEmpty()) return GotNothing()

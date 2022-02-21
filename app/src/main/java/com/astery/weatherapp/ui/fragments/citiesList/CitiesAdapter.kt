@@ -1,19 +1,24 @@
-package com.astery.weatherapp.ui.citiesList
+package com.astery.weatherapp.ui.fragments.citiesList
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.astery.weatherapp.databinding.CityUnitBinding
+
+import com.astery.weatherapp.model.pogo.City
+
 import com.astery.weatherapp.model.pogo.WeatherData
-import com.astery.weatherapp.ui.adapterUtils.BaseAdapter
-import com.astery.weatherapp.ui.adapterUtils.BaseViewHolder
+import com.astery.weatherapp.ui.base.adapter.BaseAdapter
+import com.astery.weatherapp.ui.base.adapter.BaseViewHolder
 import com.bumptech.glide.Glide
 
 
 class CitiesAdapter(
     units: List<WeatherData>,
-    itemListener: (WeatherData) -> Unit
+    itemListener: (WeatherData) -> Unit,
+    private val changeFavouriteListener:(city: City)->Unit,
+    private val isFavouriteList:Boolean=true
 ) :
     BaseAdapter<WeatherData>(units, diffUtil) {
 
@@ -33,6 +38,13 @@ class CitiesAdapter(
         val unit = currentList[position]
         binding.run {
             name.text = unit.city.name
+            favIcon.init(unit.city.isFavourite?: false) { isFavourite ->
+                unit.city.isFavourite = isFavourite
+                changeFavouriteListener.invoke(unit.city)
+                // if this is a favourite list - may remove
+                if (!isFavourite && isFavouriteList)
+                    removeItem(unit)
+            }
             if (unit.weatherData != null) {
                 // TODO(переделать под двузначные)
                 val photoUrl =
@@ -43,6 +55,10 @@ class CitiesAdapter(
             }
         }
 
+    }
+
+    private fun removeItem(unit:WeatherData){
+        removeItem(currentList.indexOf(unit))
     }
 
     inner class ViewHolder(viewGroup: ViewGroup) :

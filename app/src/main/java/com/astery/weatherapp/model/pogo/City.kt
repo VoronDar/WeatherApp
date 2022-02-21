@@ -11,7 +11,7 @@ data class City(
     @PrimaryKey @SerializedName("Key") val id: String,
     @SerializedName("LocalizedName") val name: String,
     @Embedded @SerializedName("Country") val country: Country,
-    val isFavourite: Boolean? = false
+    var isFavourite: Boolean? = false
 ) : Parcelable {
     @Parcelize
     data class Country(

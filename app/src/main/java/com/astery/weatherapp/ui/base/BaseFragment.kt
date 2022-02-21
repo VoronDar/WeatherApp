@@ -1,4 +1,4 @@
-package com.astery.weatherapp.ui
+package com.astery.weatherapp.ui.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
