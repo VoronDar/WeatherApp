@@ -1,16 +1,23 @@
 package com.astery.weatherapp.ui.fragments.weatherToday
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import androidx.core.view.isGone
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionManager
 import com.astery.weatherapp.app.di.appComponent
+import com.astery.weatherapp.databinding.BottomShiftGeoDialogueBinding
 import com.astery.weatherapp.databinding.WeatherFragmentBinding
 import com.astery.weatherapp.model.pogo.WeatherData
 import com.astery.weatherapp.model.state.*
 import com.astery.weatherapp.ui.base.BaseFragment
 import com.astery.weatherapp.ui.base.BindingInflater
+import com.astery.weatherapp.ui.loadState.LoadStateView
 import com.astery.weatherapp.ui.utils.ArgumentsDelegate
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.transition.MaterialSharedAxis
 import timber.log.Timber
 import javax.inject.Inject
@@ -44,9 +51,14 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
     override fun prepareUI() {
         bind.favButton.setOnClickListener { moveToFavourite() }
         bind.searchButton.setOnClickListener { moveToSearch() }
-        bind.geoButton.setOnClickListener { TODO() }
+        bind.geoButton.setOnClickListener { openGeoPanel() }
+        bind.loadingStateView.onReloadListener = viewModel::getWeatherData
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        locationProvider.registerForActivityResult()
+    }
 
     // MARK: render
     private inner class WeatherObserver : Observer<Result<WeatherData>> {
@@ -55,24 +67,30 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
             when (result) {
                 is Idle -> renderLoading()
                 is Loading -> renderLoading()
-                is Completed<*> -> renderComplete(
-                    WeatherDataForUI(
-                        requireContext(),
-                        (result.result as WeatherData).weatherData!!,
-                        result.result.city
+                is Completed<*> -> {
+                    Timber.d("${(result.result as WeatherData).weatherData!!.date.time}")
+                    renderComplete(
+                        WeatherDataForUI(
+                            requireContext(),
+                            result.result.weatherData!!,
+                            result.result.city
+                        )
                     )
-                )
+                }
                 is Error -> renderError(result.error)
                 else -> throw IllegalStateException("got invalid result state ${result::class.simpleName}")
             }
         }
 
         private fun renderLoading() {
+            bind.loadingStateView.changeState(LoadStateView.StateLoading())
             renderChangeVisibility(true)
         }
 
         private fun renderComplete(weather: WeatherDataForUI) {
+            bind.loadingStateView.changeState(LoadStateView.StateHide())
             renderChangeVisibility(false)
+
             bind.run {
                 city.text = weather.cityName
                 temperature.text = weather.temperature
@@ -93,36 +111,17 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
 
         private fun renderError(t: Error.ResultError) {
             Timber.d("got error ${t.name}")
-            when (t) {
-                Error.ResultError.PermissionDenied -> moveToFavourite()
-                else -> {
-                }
-            }
+            bind.loadingStateView.changeState(LoadStateView.StateError())
+            if (t == Error.ResultError.PermissionDenied) moveToSearch()
         }
 
         private fun renderChangeVisibility(isGone: Boolean) {
-            if (bind.city.isGone == isGone) return
-
             val sharedAxis = MaterialSharedAxis(MaterialSharedAxis.Y, true)
             TransitionManager.beginDelayedTransition(bind.workPanel, sharedAxis)
             TransitionManager.beginDelayedTransition(bind.root, sharedAxis)
-
-            bind.run {
-                city.isGone = isGone
-                temperature.isGone = isGone
-                helper.isGone = isGone
-                feelTemperature.isGone = isGone
-                pressure.isGone = isGone
-                humidity.isGone = isGone
-                windSpeed.isGone = isGone
-                time.isGone = isGone
-                favIcon.isGone = isGone
-                weatherState.isGone = isGone
-                weatherStateBackground.isGone = isGone
-                humidityIcon.isGone = isGone
-                pressureIcon.isGone = isGone
-                windIcon.isGone = isGone
-            }
+            bind.weatherGroup.isGone = isGone
+            bind.weatherState.isGone = isGone
+            bind.weatherStateBackground.isGone = isGone
 
         }
     }
@@ -140,6 +139,28 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
 
     private fun moveToFavourite() {
         findNavController().navigate(WeatherTodayFragmentDirections.actionWeatherTodayFragmentToFavCitiesFragment())
+    }
+
+    // MARK: geo
+    private fun openGeoPanel() {
+        val bottomSheetDialog = BottomSheetDialog(requireContext())
+        val binding = BottomShiftGeoDialogueBinding.inflate(layoutInflater, null, false)
+
+        bottomSheetDialog.setContentView(binding.root)
+        binding.submit.setOnClickListener {
+            bottomSheetDialog.cancel()
+            moveToAppSettings()
+        }
+        binding.cancel.setOnClickListener { bottomSheetDialog.cancel() }
+
+        bottomSheetDialog.show()
+    }
+
+    private fun moveToAppSettings() {
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        val uri: Uri = Uri.fromParts("package", activity!!.packageName, null)
+        intent.data = uri
+        startActivity(intent)
     }
 
 }

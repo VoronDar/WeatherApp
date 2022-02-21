@@ -84,6 +84,7 @@
         app:layout_constraintBottom_toTopOf="@id/work_panel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
@@ -92,6 +93,7 @@
         android:layout_height="100dp"
         android:src="@drawable/ic_sun"
         android:scaleType="fitEnd"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/work_panel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -105,6 +107,21 @@
         android:background="@drawable/work_shape"
         app:layout_constraintBottom_toBottomOf="parent"
         >
+
+        <com.astery.weatherapp.ui.loadState.LoadStateView
+            android:id = "@+id/loadingStateView"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_marginTop="-80dp"
+            android:layout_height="match_parent"/>
+
+        <androidx.constraintlayout.widget.Group
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:id="@+id/weatherGroup"
+            app:constraint_referenced_ids="temperature,feel_temperature,helper,fav_icon, humidity, humidity_icon, windSpeed, wind_icon, pressure, pressure_icon"/>
+
         <androidx.constraintlayout.widget.Guideline
             android:id="@id/middle"
             android:layout_width="match_parent"
@@ -184,6 +201,7 @@
             style="@style/state_icon"
             android:src="@drawable/ic_state_humidity"
             android:scaleType="fitCenter"
+            android:layout_marginTop="0dp"
             android:id = "@+id/humidity_icon"
             android:contentDescription="@string/cd_weather_humidity"
             app:layout_constraintTop_toTopOf="@id/temperature"

@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.astery.weatherapp.databinding.CityUnitBinding
+
 import com.astery.weatherapp.model.pogo.City
+
 import com.astery.weatherapp.model.pogo.WeatherData
 import com.astery.weatherapp.ui.base.adapter.BaseAdapter
 import com.astery.weatherapp.ui.base.adapter.BaseViewHolder
@@ -34,7 +36,6 @@ class CitiesAdapter(
     override fun onBindViewHolder(h: BaseViewHolder, position: Int) {
         val binding = h.binding as CityUnitBinding
         val unit = currentList[position]
-
         binding.run {
             name.text = unit.city.name
             favIcon.init(unit.city.isFavourite?: false) { isFavourite ->

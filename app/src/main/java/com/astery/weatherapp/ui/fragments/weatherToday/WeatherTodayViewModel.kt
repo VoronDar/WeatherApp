@@ -38,49 +38,58 @@ class WeatherTodayViewModel constructor(
             }
 
             override fun onPermissionDenied() {
-                _weather.postValue(Error(Error.ResultError.PermissionDenied))
-            }
-
-            override fun onFailure() {
-                _weather.postValue(Error(Error.ResultError.PermissionDenied))
+                Timber.d("permission denied")
+                getLastViewedCity()
             }
         })
     }
 
+    /** used when geo is not enabled */
+    private fun getLastViewedCity(){
+        viewModelScope.launch{
+            getWeather(repository.getLastViewedCity())
+        }
+    }
+
     /** ask for city and than for weather */
     private fun getCity(location: Location) {
-        viewModelScope.launch(dispatcher) {
-            val cityResult = repository.getCity(location)
-            if (cityResult is Completed) {
-                w = WeatherData(
-                    cityResult.result, w?.weatherData
-                )
-                getWeatherData()
-            } else {
-                _weather.postValue(Error(Error.ResultError.InvalidCity))
-            }
+        viewModelScope.launch {
+            getWeather(repository.getCity(location))
+        }
+    }
+
+    private fun getWeather(cityResult: Result<City>) {
+        if (cityResult is Completed) {
+            w = WeatherData(
+                cityResult.result, w?.weatherData
+            )
+            getWeatherData()
+        } else {
+            _weather.value = Error(Error.ResultError.InvalidCity)
+            asdasd()
         }
     }
 
     // load weather if has city, if not, get city and return to this func later
-    private fun getWeatherData() {
-        viewModelScope.launch(dispatcher) {
-
-            if (w == null) {
-                getGeolocation()
-                return@launch
+    fun getWeatherData() {
+        _weather.value = Loading()
+        if (w == null) {
+            getGeolocation()
+            return
+        }
+        viewModelScope.launch {
+            async{
+                repository.setLastViewedCity(w!!.city)
             }
 
-            if (_weather.value is Idle) {
-                _weather.postValue(Loading())
-
-                async {
-                    val value = repository.getCachedWeather(w!!.city)
-                    if (_weather.value !is Completed && value is Completed) {
-                        Timber.d("got weather from cache")
-                        _weather.postValue(value)
-                    }
+            async {
+                val value = repository.getCachedWeather(w!!.city)
+                // post something if there is no info from remote
+                if (_weather.value !is Completed && value is Completed) {
+                    Timber.d("got weather from cache")
+                    _weather.value = value
                 }
+            }
 
                 async {
                     val value = repository.getCurrentWeather(w!!.city)
@@ -90,10 +99,18 @@ class WeatherTodayViewModel constructor(
                     }
                 }
 
+                // don't update if local returns data, but remote doesn't
+                if (value is Completed || _weather.value !is Completed) {
+                    Timber.d("tried to get actual weather")
+                    _weather.value = value
+                    asdasd()
+                }
 
             }
+
         }
     }
+
 
     fun changeSelectedCityFav(favourite: Boolean) {
         viewModelScope.launch(dispatcher) {
@@ -126,6 +143,16 @@ class WeatherTodayViewModel constructor(
         private val repository: Repository,
         private val dispatcher: CoroutineDispatcher
     ) {
+    private fun asdasd(){
+        // if there is no data and permission isn't granted ->
+        // than we can't do anything and the only thing we can to do - is to move to another fragment
+        if (_weather.value !is Completed && !LocationProvider.IS_PERMISSION_PROVIDED)
+            _weather.value = Error(Error.ResultError.PermissionDenied)
+
+    }
+
+    class Factory @Inject constructor(private val repository: Repository) {
+
         fun create(
             weather: WeatherData?,
             locationProvider: LocationProvider
@@ -133,4 +160,3 @@ class WeatherTodayViewModel constructor(
             WeatherTodayViewModel(weather, locationProvider, repository, dispatcher)
     }
 }
-
