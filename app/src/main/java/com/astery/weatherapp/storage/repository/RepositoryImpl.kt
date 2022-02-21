@@ -73,6 +73,10 @@ class RepositoryImpl @Inject constructor(
         return local.getCities()
     }
 
+    override suspend fun setLastViewedCity(city: City) {
+        prefs.set(LastCityId(city.id))
+    }
+
     /**
      * get from remote - save to local
      * if there is no data in remote - get from local

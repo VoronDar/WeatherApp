@@ -71,13 +71,14 @@ class WeatherTodayViewModel constructor(
 
     // load weather if has city, if not, get city and return to this func later
     fun getWeatherData() {
+        _weather.value = Loading()
+        if (w == null) {
+            getGeolocation()
+            return
+        }
         viewModelScope.launch {
-
-            _weather.value = Loading()
-
-            if (w == null) {
-                getGeolocation()
-                return@launch
+            async{
+                repository.setLastViewedCity(w!!.city)
             }
 
             async {
