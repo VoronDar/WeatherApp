@@ -1,11 +1,15 @@
 package com.astery.weatherapp.ui.weatherToday
 
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import androidx.core.view.isGone
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.transition.TransitionManager
 import com.astery.weatherapp.app.di.appComponent
+import com.astery.weatherapp.databinding.BottomShiftGeoDialogueBinding
 import com.astery.weatherapp.databinding.WeatherFragmentBinding
 import com.astery.weatherapp.model.pogo.WeatherData
 import com.astery.weatherapp.model.state.*
@@ -13,6 +17,7 @@ import com.astery.weatherapp.ui.BaseFragment
 import com.astery.weatherapp.ui.BindingInflater
 import com.astery.weatherapp.ui.loadState.LoadStateView
 import com.astery.weatherapp.ui.utils.ArgumentsDelegate
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.transition.MaterialSharedAxis
 import timber.log.Timber
 import javax.inject.Inject
@@ -45,10 +50,9 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
     override fun prepareUI() {
         bind.favButton.setOnClickListener { moveToFavourite() }
         bind.searchButton.setOnClickListener { moveToSearch() }
-        bind.geoButton.setOnClickListener { TODO() }
+        bind.geoButton.setOnClickListener { openGeoPanel() }
         bind.loadingStateView.onReloadListener = viewModel::getWeatherData
     }
-
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -130,6 +134,26 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
 
     private fun moveToFavourite() {
         findNavController().navigate(WeatherTodayFragmentDirections.actionWeatherTodayFragmentToFavCitiesFragment())
+    }
+
+    // MARK: geo
+    private fun openGeoPanel() {
+        val bottomSheetDialog = BottomSheetDialog(requireContext())
+        val binding = BottomShiftGeoDialogueBinding.inflate(layoutInflater, null, false)
+
+        bottomSheetDialog.setContentView(binding.root)
+        binding.submit.setOnClickListener { moveToAppSettings() }
+        binding.cancel.setOnClickListener { bottomSheetDialog.cancel() }
+
+        bottomSheetDialog.show()
+    }
+
+    private fun moveToAppSettings() {
+
+        val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+        val uri: Uri = Uri.fromParts("package", activity!!.packageName, null)
+        intent.data = uri
+        startActivity(intent)
     }
 
 }

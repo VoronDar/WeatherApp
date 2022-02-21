@@ -30,5 +30,8 @@
     <string name="loading_state_loading">Загрузка…</string>
     <string name="loading_state_nothing">Данных не найдено</string>
     <string name="loading_state_error">Ошибка загрузки</string>
+    <string name="button_ask_for_permission">Дать доступ</string>
+    <string name="ask_for_geo_title">С помощью доступа к геолокации приложение может определить погоду для вашего местоположения</string>
+    <string name="button_cancel">назад</string>
 
 </resources>
