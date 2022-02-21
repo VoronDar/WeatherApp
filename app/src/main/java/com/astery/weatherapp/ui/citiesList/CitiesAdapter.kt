@@ -4,9 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.astery.weatherapp.databinding.CityUnitBinding
-import com.astery.weatherapp.model.pogo.Weather
 import com.astery.weatherapp.model.pogo.WeatherData
 import com.astery.weatherapp.ui.adapterUtils.BaseAdapter
 import com.astery.weatherapp.ui.adapterUtils.BaseViewHolder
@@ -22,7 +20,7 @@ class CitiesAdapter(
     private lateinit var context: Context
 
     init {
-        blockListener = { item -> itemListener(units[item]) }
+        blockListener = { item -> itemListener(currentList[item]) }
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): BaseViewHolder {
@@ -32,7 +30,7 @@ class CitiesAdapter(
 
     override fun onBindViewHolder(h: BaseViewHolder, position: Int) {
         val binding = h.binding as CityUnitBinding
-        val unit = units[position]
+        val unit = currentList[position]
         binding.run {
             name.text = unit.city.name
             if (unit.weatherData != null) {

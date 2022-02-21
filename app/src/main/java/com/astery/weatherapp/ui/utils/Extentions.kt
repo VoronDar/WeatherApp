@@ -20,7 +20,7 @@ fun Calendar.year():Int{
     return get(Calendar.YEAR)
 }
 fun Calendar.month():Int{
-    return get(Calendar.MONTH)
+    return get(Calendar.MONTH)+1
 }
 fun Calendar.day():Int{
     return get(Calendar.DAY_OF_MONTH)

@@ -1,10 +1,12 @@
 package com.astery.weatherapp.ui.weatherToday
 
 import android.content.Context
+import android.util.Log.d
 import com.astery.weatherapp.R
 import com.astery.weatherapp.model.pogo.City
 import com.astery.weatherapp.model.pogo.Weather
 import com.astery.weatherapp.ui.utils.*
+import timber.log.Timber
 import java.util.*
 
 data class WeatherDataForUI(

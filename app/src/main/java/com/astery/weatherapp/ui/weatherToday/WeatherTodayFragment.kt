@@ -66,13 +66,16 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
             when (result) {
                 is Idle -> renderLoading()
                 is Loading -> renderLoading()
-                is Completed<*> -> renderComplete(
-                    WeatherDataForUI(
-                        requireContext(),
-                        (result.result as WeatherData).weatherData!!,
-                        result.result.city
+                is Completed<*> -> {
+                    Timber.d("${(result.result as WeatherData).weatherData!!.date.time}")
+                    renderComplete(
+                        WeatherDataForUI(
+                            requireContext(),
+                            result.result.weatherData!!,
+                            result.result.city
+                        )
                     )
-                )
+                }
                 is Error -> renderError(result.error)
                 else -> throw IllegalStateException("got invalid result state ${result::class.simpleName}")
             }
@@ -87,6 +90,7 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
         private fun renderComplete(weather: WeatherDataForUI) {
             bind.loadingStateView.changeState(LoadStateView.StateHide())
             renderChangeVisibility(false)
+
             bind.run {
                 city.text = weather.cityName
                 temperature.text = weather.temperature
