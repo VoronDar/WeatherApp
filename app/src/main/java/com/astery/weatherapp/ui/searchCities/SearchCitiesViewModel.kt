@@ -8,10 +8,12 @@ import com.astery.weatherapp.model.pogo.WeatherData
 import com.astery.weatherapp.model.state.Loading
 import com.astery.weatherapp.model.state.Result
 import com.astery.weatherapp.storage.repository.Repository
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
+import java.lang.StringBuilder
 import javax.inject.Inject
 
-class SearchCitiesViewModel(private val repository: Repository) : ViewModel() {
+class SearchCitiesViewModel(private val repository: Repository, private val dispatcher: CoroutineDispatcher) : ViewModel() {
 
     private val _cities: MutableLiveData<Result<List<WeatherData>>> =
         MutableLiveData(Loading())
@@ -23,26 +25,38 @@ class SearchCitiesViewModel(private val repository: Repository) : ViewModel() {
     }
 
     private fun getCities() {
-        viewModelScope.launch {
-            _cities.value = repository.getCities()
+        viewModelScope.launch(dispatcher) {
+            _cities.postValue(repository.getCities())
         }
     }
 
     fun getCities(searchQuery: String?) {
-        _cities.value = Loading()
+        _cities.postValue(Loading())
 
         if (searchQuery?.isNotEmpty() == true) {
-            viewModelScope.launch {
-                _cities.value = repository.getCities(searchQuery)
+            viewModelScope.launch(dispatcher) {
+                _cities.postValue(repository.getCities(prepareQuery(searchQuery)))
             }
         } else {
             getCities()
         }
     }
 
-    class Factory @Inject constructor(private val repository: Repository) {
+    /** capitalize all words. It is required to make TTS work (db stores capitalized words)  */
+    private fun prepareQuery(searchQuery: String):String{
+        val words = searchQuery.split(" ")
+        val stringBuilder = StringBuilder()
+        words.forEach { string ->
+            stringBuilder.append(string.replaceFirstChar {
+                it.uppercase()
+            })
+        }
+        return stringBuilder.toString()
+    }
+
+    class Factory @Inject constructor(private val repository: Repository, private val dispatcher: CoroutineDispatcher) {
         fun create(): SearchCitiesViewModel =
-            SearchCitiesViewModel(repository)
+            SearchCitiesViewModel(repository, dispatcher)
     }
 
 }
