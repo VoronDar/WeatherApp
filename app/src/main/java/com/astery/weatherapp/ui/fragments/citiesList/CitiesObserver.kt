@@ -18,6 +18,12 @@ class CitiesObserver(
 
     init {
         loadingStateView.onReloadListener = onReloadListener
+        recyclerView.run {
+            addItemDecoration(MarginItemDecoration())
+            layoutManager =
+                LinearLayoutManager(recyclerView.context!!, RecyclerView.VERTICAL, false)
+        }
+        recyclerView.adapter = adapter
     }
 
 
@@ -45,13 +51,7 @@ class CitiesObserver(
 
     private fun renderComplete(weather: List<WeatherData>) {
         loadingStateView.changeState(LoadStateView.StateHide(), recyclerView)
-        recyclerView.layoutManager =
-            LinearLayoutManager(recyclerView.context!!, RecyclerView.VERTICAL, false)
         adapter.submitList(weather)
-        recyclerView.adapter = adapter
-        recyclerView.addItemDecoration(
-            MarginItemDecoration()
-        )
     }
 
 }
