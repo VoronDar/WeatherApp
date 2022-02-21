@@ -17,7 +17,7 @@ import javax.inject.Inject
 import kotlin.reflect.KSuspendFunction1
 
 class RepositoryImpl @Inject constructor(
-    @Fake private val remote: RemoteDataStorage,
+    @Prod private val remote: RemoteDataStorage,
     private val local: LocalDataStorage,
     private val prefs: Preferences
 ) : Repository {
@@ -76,7 +76,7 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun getCities(): Result<List<WeatherData>> {
         val result = remote.getTopCities()
-        if (result is Completed){
+        if (result is Completed) {
             result.result.forEach {
                 it.city.isFavourite = local.isFavourite(it.city)
             }
@@ -85,13 +85,17 @@ class RepositoryImpl @Inject constructor(
         return local.getCities()
     }
 
+    override suspend fun setLastViewedCity(city: City) {
+        prefs.set(LastCityId(city.id))
+    }
+
 
     override suspend fun changeCityFavouriteState(city: City) {
         local.changeCityFavouriteState(city)
     }
 
     override suspend fun isCityFavourite(city: City): Boolean {
-        return local.isFavourite(city)?: false
+        return local.isFavourite(city) ?: false
 
     }
 

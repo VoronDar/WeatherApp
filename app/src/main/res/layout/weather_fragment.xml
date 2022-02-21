@@ -108,7 +108,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         >
 
-        <com.astery.weatherapp.ui.loadState.LoadStateView
+        <com.astery.weatherapp.ui.customViews.loadState.LoadStateView
             android:id = "@+id/loadingStateView"
             android:layout_width="match_parent"
             android:visibility="gone"

@@ -15,7 +15,7 @@ import com.astery.weatherapp.model.pogo.WeatherData
 import com.astery.weatherapp.model.state.*
 import com.astery.weatherapp.ui.base.BaseFragment
 import com.astery.weatherapp.ui.base.BindingInflater
-import com.astery.weatherapp.ui.loadState.LoadStateView
+import com.astery.weatherapp.ui.customViews.loadState.LoadStateView
 import com.astery.weatherapp.ui.utils.ArgumentsDelegate
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.transition.MaterialSharedAxis

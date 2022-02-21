@@ -34,4 +34,20 @@ data class Weather(
     }
 }
 @Parcelize
-data class WeatherData(val city: City, val weatherData: Weather?):Parcelable
+data class WeatherData(val city: City, var weatherData: Weather?):Parcelable{
+    // I overrided it, because I don't want to see link comparison
+    override fun equals(other: Any?): Boolean {
+        if (other !is WeatherData) return false
+
+        if (city != other.city) return false
+        if (weatherData != other.weatherData) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = city.hashCode()
+        result = 31 * result + (weatherData?.hashCode() ?: 0)
+        return result
+    }
+}

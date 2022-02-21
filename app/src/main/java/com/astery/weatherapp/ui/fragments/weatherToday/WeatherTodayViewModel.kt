@@ -3,17 +3,16 @@ package com.astery.weatherapp.ui.fragments.weatherToday
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.astery.weatherapp.model.pogo.*
+import com.astery.weatherapp.model.pogo.City
+import com.astery.weatherapp.model.pogo.Location
+import com.astery.weatherapp.model.pogo.WeatherData
 import com.astery.weatherapp.model.state.*
 import com.astery.weatherapp.storage.repository.Repository
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers.IO
 import com.astery.weatherapp.ui.fragments.baseChangeFav.ChangeFavViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 
 class WeatherTodayViewModel constructor(
@@ -47,8 +46,8 @@ class WeatherTodayViewModel constructor(
     }
 
     /** used when geo is not enabled */
-    private fun getLastViewedCity(){
-        viewModelScope.launch{
+    private fun getLastViewedCity() {
+        viewModelScope.launch {
             getWeather(repository.getLastViewedCity())
         }
     }
@@ -67,7 +66,7 @@ class WeatherTodayViewModel constructor(
             }
         }
     }
-    
+
     private fun getWeather(cityResult: Result<City>) {
         if (cityResult is Completed) {
             w = WeatherData(
@@ -75,7 +74,7 @@ class WeatherTodayViewModel constructor(
             )
             getWeatherData()
         } else {
-            _weather.value = Error(Error.ResultError.InvalidCity)
+            _weather.postValue(Error(Error.ResultError.InvalidCity))
             asdasd()
         }
     }
@@ -83,29 +82,36 @@ class WeatherTodayViewModel constructor(
     // load weather if has city, if not, get city and return to this func later
 
 
-    private fun getWeatherData() {
-            if (w == null) {
-                getGeolocation()
-                return
-            }
+    fun getWeatherData() {
+
+        _weather.postValue(Loading())
+
+        if (w == null) {
+            getGeolocation()
+            return
+        }
+
+
 
         viewModelScope.launch(dispatcher) {
 
-                async {
-                    val value = repository.getCachedWeather(w!!.city)
-                    if (_weather.value !is Completed && value is Completed) {
-                        Timber.d("got weather from cache")
-                        _weather.postValue(value)
-                    }
+            repository.setLastViewedCity(w!!.city)
 
+            async {
+                val value = repository.getCachedWeather(w!!.city)
+                if (_weather.value !is Completed && value is Completed) {
+                    Timber.d("got weather from cache")
+                    _weather.postValue(value)
                 }
+
+            }
             async {
                 val value = repository.getCurrentWeather(w!!.city)
 
                 // don't update if local returns data, but remote doesn't
                 if (value is Completed || _weather.value !is Completed) {
                     Timber.d("tried to get actual weather")
-                    _weather.value = value
+                    _weather.postValue(value)
                     asdasd()
                 }
 
@@ -132,13 +138,24 @@ class WeatherTodayViewModel constructor(
         }
     }
 
-    private fun asdasd(){
+    private fun asdasd() {
         // if there is no data and permission isn't granted ->
         // than we can't do anything and the only thing we can to do - is to move to another fragment
-        if (_weather.value !is Completed && !LocationProvider.IS_PERMISSION_PROVIDED)
-            _weather.value = Error(Error.ResultError.PermissionDenied)
+        if (_weather.value is Error && !LocationProvider.IS_PERMISSION_PROVIDED)
+            _weather.postValue(Error(Error.ResultError.PermissionDenied))
 
     }
+
+    fun changeSelectedCityFav(favourite: Boolean) {
+        viewModelScope.launch(dispatcher){
+            if (weather.value is Completed<WeatherData>){
+                val city = (weather.value as Completed<WeatherData>).result.city
+                city.isFavourite = favourite
+                changeCityFavouriteState(city)
+            }
+        }
+    }
+
 
     class Factory @Inject constructor(
         private val repository: Repository,

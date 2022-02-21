@@ -13,6 +13,7 @@
     <color name="icon_on_background">#3E3E3E</color>
     <color name="divider">#919191</color>
     <color name="down">#37A4ED</color>
+    <color name="status">#285A7C</color>
     <color name="on_down">#FFFFFF</color>
     <color name="icon_fav_selected">#EAB040</color>
 

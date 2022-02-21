@@ -1,5 +1,6 @@
 package com.astery.weatherapp.ui.fragments.citiesList
 
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -7,6 +8,7 @@ import com.astery.weatherapp.model.pogo.WeatherData
 import com.astery.weatherapp.model.state.*
 import com.astery.weatherapp.ui.base.adapter.MarginItemDecoration
 import com.astery.weatherapp.ui.customViews.loadState.LoadStateView
+import timber.log.Timber
 
 /** render for fragment with cities list */
 class CitiesObserver(
@@ -52,6 +54,7 @@ class CitiesObserver(
     private fun renderComplete(weather: List<WeatherData>) {
         loadingStateView.changeState(LoadStateView.StateHide(), recyclerView)
         adapter.submitList(weather)
+        Timber.d("render")
     }
 
 }
