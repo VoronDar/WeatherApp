@@ -23,6 +23,7 @@ class CitiesObserver(
             layoutManager =
                 LinearLayoutManager(recyclerView.context!!, RecyclerView.VERTICAL, false)
         }
+        recyclerView.adapter = adapter
     }
 
 

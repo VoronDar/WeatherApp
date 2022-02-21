@@ -65,6 +65,9 @@ class WeatherTodayViewModel constructor(
             } else {
                 _weather.postValue(Error(Error.ResultError.InvalidCity))
             }
+        }
+    }
+    
     private fun getWeather(cityResult: Result<City>) {
         if (cityResult is Completed) {
             w = WeatherData(
@@ -78,6 +81,7 @@ class WeatherTodayViewModel constructor(
     }
 
     // load weather if has city, if not, get city and return to this func later
+
 
     private fun getWeatherData() {
             if (w == null) {
@@ -95,13 +99,6 @@ class WeatherTodayViewModel constructor(
                     }
 
                 }
-                async {
-                    val value = repository.getCurrentWeather(w!!.city)
-                    if (value is Completed || _weather.value !is Completed) {
-                        Timber.d("tried to get actual")
-                        _weather.postValue(value)
-                    }
-                }
             async {
                 val value = repository.getCurrentWeather(w!!.city)
 
@@ -117,6 +114,24 @@ class WeatherTodayViewModel constructor(
         }
     }
 
+
+    fun getActualFavourite() {
+        viewModelScope.launch(dispatcher) {
+            if (weather.value is Completed) {
+                val result = (weather.value as Completed<WeatherData>)
+                val isCityFav = repository.isCityFavourite(result.result.city)
+                _weather.postValue(
+                    Completed(
+                        WeatherData(
+                            result.result.city.copy(isFavourite = isCityFav),
+                            result.result.weatherData
+                        ), result.isFromCache
+                    )
+                )
+            }
+        }
+    }
+
     private fun asdasd(){
         // if there is no data and permission isn't granted ->
         // than we can't do anything and the only thing we can to do - is to move to another fragment
@@ -125,8 +140,11 @@ class WeatherTodayViewModel constructor(
 
     }
 
+    class Factory @Inject constructor(
+        private val repository: Repository,
+        private val dispatcher: CoroutineDispatcher
+    ) {
 
-    class Factory @Inject constructor(private val repository: Repository) {
         fun create(
             weather: WeatherData?,
             locationProvider: LocationProvider
