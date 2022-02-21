@@ -24,7 +24,8 @@ data class WeatherApiEntity(
             wind.speed.metric.value,
             wind.direction.degrees,
             getWeatherState(),
-            Date(time),
+            // date consumes milliseconds, server returns seconds
+            Date(time*1000),
             weatherIcon
         )
     }

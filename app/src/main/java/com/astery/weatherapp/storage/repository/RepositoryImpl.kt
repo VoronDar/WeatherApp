@@ -6,6 +6,7 @@ import com.astery.weatherapp.model.pogo.City
 import com.astery.weatherapp.model.pogo.Location
 import com.astery.weatherapp.model.pogo.WeatherData
 import com.astery.weatherapp.model.state.Completed
+import com.astery.weatherapp.model.state.Error
 import com.astery.weatherapp.model.state.GotNothing
 import com.astery.weatherapp.model.state.Result
 import com.astery.weatherapp.storage.local.LocalDataStorage
@@ -44,15 +45,19 @@ class RepositoryImpl @Inject constructor(
             remote::getCity, null, local::addCity
         )
         return if (result !is Completed<City>) {
-            val lastId = prefs.get(LastCityId(null))
-            if (lastId == null) {
-                result
-            } else {
-                local.getCity(lastId)
-            }
+            getLastViewedCity()
         } else {
             prefs.set(LastCityId(result.result.id))
             result
+        }
+    }
+
+    override suspend fun getLastViewedCity(): Result<City> {
+        val lastId = prefs.get(LastCityId(null))
+        return if (lastId == null) {
+            Error(Error.ResultError.UnexpectedBug)
+        } else {
+            local.getCity(lastId)
         }
     }
 
@@ -68,6 +73,10 @@ class RepositoryImpl @Inject constructor(
         val result = remote.getTopCities()
         if (result is Completed) return result
         return local.getCities()
+    }
+
+    override suspend fun setLastViewedCity(city: City) {
+        prefs.set(LastCityId(city.id))
     }
 
     /**

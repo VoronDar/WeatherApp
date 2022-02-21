@@ -46,9 +46,9 @@ class LoadStateView(context: Context?, attrs: AttributeSet?) : LinearLayout(cont
         state.render(bind)
     }
 
-    fun changeState(state: LoadingState, switcher: View) {
+    fun changeState(state: LoadingState, switcher: View?=null) {
         this.state = state
-        switcher.isVisible = state is StateHide
+        switcher?.isVisible = state is StateHide
         isVisible = state !is StateHide
     }
 

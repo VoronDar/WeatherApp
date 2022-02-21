@@ -2,6 +2,7 @@ package com.astery.weatherapp.ui.weatherToday
 
 import android.Manifest
 import android.content.pm.PackageManager
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -13,43 +14,41 @@ import timber.log.Timber
 /** ask for permission if is it required and return location with a callback */
 class LocationProvider(private var fragment: Fragment?) {
 
+    lateinit var permReqLauncher: ActivityResultLauncher<String>
+    private lateinit var callback: LocationCallback
+
     fun getLocation(callback: LocationCallback) {
         if (isFragmentNull()) return
+
+        this.callback = callback
 
         if (ContextCompat.checkSelfPermission(
                 fragment!!.activity!!.applicationContext,
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_DENIED
         ) {
+
+            if (isFragmentNull()) return
+
             val fusedLocationClient =
                 LocationServices.getFusedLocationProviderClient(fragment!!.context!!)
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location ->
                     if (location != null) {
-                        Timber.d("current location = ${location.latitude}, ${location.longitude}")
+                        IS_PERMISSION_PROVIDED = true
                         callback.onSuccess(Location(location.latitude, location.longitude))
                     } else {
-                        callback.onFailure()
+                        callback.onError()
                     }
                 }
         } else {
-            askLocationPermission(callback)
+            askLocationPermission()
         }
     }
 
-    private fun askLocationPermission(callback: LocationCallback) {
+    private fun askLocationPermission() {
         if (isFragmentNull()) return
-
         try {
-            val permReqLauncher =
-                fragment!!.registerForActivityResult(ActivityResultContracts.RequestPermission()) { isSuccess ->
-                    if (isSuccess) {
-                        getLocation(callback)
-                    } else {
-                        callback.onPermissionDenied()
-                    }
-                }
-
             permReqLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             ActivityCompat.requestPermissions(
                 fragment!!.activity!!,
@@ -59,7 +58,7 @@ class LocationProvider(private var fragment: Fragment?) {
 
         } catch (e: Exception) {
             Timber.d("failed with message ${e.localizedMessage}")
-            callback.onFailure()
+            callback.onError()
         }
     }
 
@@ -74,9 +73,26 @@ class LocationProvider(private var fragment: Fragment?) {
         } else false
     }
 
+    fun registerForActivityResult() {
+        permReqLauncher =
+            fragment!!.registerForActivityResult(ActivityResultContracts.RequestPermission()) { isSuccess ->
+                if (isSuccess) {
+                    getLocation(callback)
+                } else {
+                    callback.onPermissionDenied()
+                }
+            }
+    }
+
+
     interface LocationCallback {
         fun onSuccess(location: Location)
-        fun onFailure()
+        fun onError() { this.onPermissionDenied() }
         fun onPermissionDenied()
+    }
+
+    companion object {
+        var IS_PERMISSION_PROVIDED = false
+            private set
     }
 }

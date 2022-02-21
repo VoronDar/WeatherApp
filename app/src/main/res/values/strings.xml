@@ -3,9 +3,9 @@
     <string name="favourite">Избранные</string>
     <string name="feels_like">ощущается как</string>
     <string name="temperature">%,.2f \u00B0С</string>
-    <string name="humidity">%,.2f %%</string>
-    <string name="windSpeed">%,.2f м/c</string>
-    <string name="pressure">%,.2f мc</string>
+    <string name="humidity">%d %%</string>
+    <string name="windSpeed">%,.1f м/c</string>
+    <string name="pressure">%,.1f мc</string>
     <string name="date">%d.%d.%d: %d:%d</string>
 
     <string name="cd_weather_humidity">Влажность воздуха</string>
@@ -30,5 +30,8 @@
     <string name="loading_state_loading">Загрузка…</string>
     <string name="loading_state_nothing">Данных не найдено</string>
     <string name="loading_state_error">Ошибка загрузки</string>
+    <string name="button_ask_for_permission">Дать доступ</string>
+    <string name="ask_for_geo_title">С помощью доступа к геолокации приложение может определить погоду для вашего местоположения</string>
+    <string name="button_cancel">назад</string>
 
 </resources>

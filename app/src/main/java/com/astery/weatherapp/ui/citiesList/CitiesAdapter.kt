@@ -4,9 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.astery.weatherapp.databinding.CityUnitBinding
-import com.astery.weatherapp.model.pogo.Weather
 import com.astery.weatherapp.model.pogo.WeatherData
 import com.astery.weatherapp.ui.adapterUtils.BaseAdapter
 import com.astery.weatherapp.ui.adapterUtils.BaseViewHolder

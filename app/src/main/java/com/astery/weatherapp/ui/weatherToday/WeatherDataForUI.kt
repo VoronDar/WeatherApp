@@ -1,10 +1,12 @@
 package com.astery.weatherapp.ui.weatherToday
 
 import android.content.Context
+import android.util.Log.d
 import com.astery.weatherapp.R
 import com.astery.weatherapp.model.pogo.City
 import com.astery.weatherapp.model.pogo.Weather
 import com.astery.weatherapp.ui.utils.*
+import timber.log.Timber
 import java.util.*
 
 data class WeatherDataForUI(
@@ -17,7 +19,7 @@ data class WeatherDataForUI(
     val temperature = context.getString(R.string.temperature, weather.temperature)
     val feelsLike = context.getString(R.string.temperature, weather.feelLike)
     val humidity = context.getString(R.string.humidity, weather.humidity)
-    val pressure = context.getString(R.string.pressure, weather.humidity)
+    val pressure = context.getString(R.string.pressure, weather.pressure)
     val windSpeed = context.getString(R.string.windSpeed, weather.windSpeed)
     val timestamp: String
         get() =
