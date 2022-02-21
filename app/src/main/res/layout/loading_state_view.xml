@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:gravity="center"
+    android:layout_span="20"
+    android:layout_gravity="center"
+    android:orientation="vertical"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:layout_width="70dp"
+        android:id = "@+id/icon"
+        android:contentDescription="TODO"
+        android:layout_height="70dp"
+        android:src="@drawable/ic_loading_state_loading"
+        android:scaleType="centerInside"/>
+
+    <TextView
+        android:id="@+id/text"
+        style="@style/regularText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="adasdsad"
+        android:textAlignment="center"
+        android:textColor="@color/down" />
+
+    <Button
+        android:id = "@+id/reloadButton"
+        style="@style/mainButton"
+        android:visibility="invisible"
+        android:layout_marginTop="20dp"
+        android:text = "@string/reload_button"
+        />
+
+</LinearLayout>

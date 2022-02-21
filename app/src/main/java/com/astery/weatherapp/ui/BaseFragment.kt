@@ -6,11 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
-import com.astery.weatherapp.app.appComponent
-import com.astery.weatherapp.ui.favCities.FavCitiesFragment
-import com.astery.weatherapp.ui.searchCities.SearchCitiesFragment
-import com.astery.weatherapp.ui.weatherToday.WeatherTodayFragment
-import java.lang.IllegalStateException
+import com.google.android.material.transition.MaterialSharedAxis
+import com.google.android.material.transition.MaterialSharedAxis.Y
+import com.google.android.material.transition.MaterialSharedAxis.Z
 
 /**
  * base fragment for all of fragments in the app
@@ -24,15 +22,26 @@ abstract class BaseFragment<B : ViewBinding> : Fragment() {
     /** get a function that inflates a viewBinding */
     protected abstract fun inflateBinding(): BindingInflater<B>
     protected abstract fun inject()
+
     /** start observe viewModel variables */
     protected abstract fun setViewModelListeners()
+
     /** attach adapters to recyclerView, set onClickListeners */
-    protected fun prepareUI(){}
+    protected open fun prepareUI() {}
 
 
     final override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         inject()
+
+        setTransitionAnimation()
+    }
+
+    private fun setTransitionAnimation() {
+        enterTransition = MaterialSharedAxis(Y, /* forward= */ true)
+        returnTransition = MaterialSharedAxis(Y, /* forward= */ false)
+        exitTransition = MaterialSharedAxis(Y, /* forward= */ true)
+        reenterTransition = MaterialSharedAxis(Y, /* forward= */ false)
     }
 
     final override fun onCreateView(
@@ -58,4 +67,4 @@ abstract class BaseFragment<B : ViewBinding> : Fragment() {
 }
 
 /** typealias for an inflater function */
-typealias BindingInflater<B> =  (inflater: LayoutInflater, container: ViewGroup?, isAttachToParent: Boolean) -> B
+typealias BindingInflater<B> = (inflater: LayoutInflater, container: ViewGroup?, isAttachToParent: Boolean) -> B

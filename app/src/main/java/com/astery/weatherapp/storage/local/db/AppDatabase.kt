@@ -5,10 +5,13 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.astery.weatherapp.model.pogo.City
-import com.astery.weatherapp.model.pogo.WeatherData
+import com.astery.weatherapp.model.pogo.CityFts
+import com.astery.weatherapp.model.pogo.Weather
+import com.astery.weatherapp.storage.local.db.dao.CityDao
+import com.astery.weatherapp.storage.local.db.dao.WeatherDao
 
 @Database(
-    entities = [City::class, WeatherData::class],
+    entities = [City::class, Weather::class, CityFts::class],
     version = 1,
     exportSchema = false
 )
@@ -26,7 +29,7 @@ abstract class AppDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context,
                     AppDatabase::class.java,
-                    "database"
+                    "databas"
                 )
                     .build()
                 INSTANCE = instance

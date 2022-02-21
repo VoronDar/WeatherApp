@@ -6,7 +6,6 @@ plugins {
     id 'kotlin-parcelize'
 }
 
-// some dagger features
 kapt{
     arguments{
         arg("dagger.fastInit", "enabled")
@@ -31,9 +30,17 @@ android {
     }
 
     buildTypes {
+        def WEATHER_API_KEY = ""
+        def WEATHER_API_URL = ""
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        debug{
+            buildConfigField "String", "WEATHER_API_KEY", "\"UWjZ4HPjY4hUaUJzWOQbiBV1x54SG60s\""
+            buildConfigField "String", "WEATHER_API_URL", "\"http://dataservice.accuweather.com/\""
         }
     }
 
@@ -91,6 +98,9 @@ dependencies {
     // others
     implementation 'com.jakewharton.timber:timber:5.0.1'
     implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'com.google.android.gms:play-services-location:19.0.1'
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+
 
 
 
