@@ -12,6 +12,8 @@ import com.astery.weatherapp.storage.repository.RepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Dispatchers
 import javax.inject.Qualifier
 import javax.inject.Singleton
 
@@ -31,5 +33,6 @@ interface ApplicationModule{
     @Binds
     @Fake
     fun bindFakeRemoteStorage(storage: RemoteDataStorageFake):RemoteDataStorage
+
 
 }

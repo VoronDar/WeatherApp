@@ -21,7 +21,7 @@ class RemoteDataStorageFake @Inject constructor(
     override suspend fun getTopCities(): Result<List<WeatherData>> {
         val list = ArrayList<WeatherData>()
         for (i in 1..50) {
-            list.add(WeatherData(City("$i", "Москва ${i}", City.Country("1", "ara")), null))
+            list.add(WeatherData(City("$i", "Москва $i", City.Country("1", "ara")), null))
         }
         return Completed(list, false)
     }

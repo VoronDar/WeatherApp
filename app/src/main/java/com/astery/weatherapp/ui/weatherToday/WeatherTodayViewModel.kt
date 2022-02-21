@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.astery.weatherapp.model.pogo.*
 import com.astery.weatherapp.model.state.*
 import com.astery.weatherapp.storage.repository.Repository
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import timber.log.Timber
@@ -16,7 +17,8 @@ import javax.inject.Inject
 class WeatherTodayViewModel constructor(
     private var w: WeatherData?,
     private val locationProvider: LocationProvider,
-    private val repository: Repository
+    private val repository: Repository,
+    private val dispatcher: CoroutineDispatcher
 ) :
     ViewModel() {
 
@@ -36,18 +38,18 @@ class WeatherTodayViewModel constructor(
             }
 
             override fun onPermissionDenied() {
-                _weather.value = Error(Error.ResultError.PermissionDenied)
+                _weather.postValue(Error(Error.ResultError.PermissionDenied))
             }
 
             override fun onFailure() {
-                _weather.value = Error(Error.ResultError.PermissionDenied)
+                _weather.postValue(Error(Error.ResultError.PermissionDenied))
             }
         })
     }
 
     /** ask for city and than for weather */
     private fun getCity(location: Location) {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
             val cityResult = repository.getCity(location)
             if (cityResult is Completed) {
                 w = WeatherData(
@@ -55,14 +57,14 @@ class WeatherTodayViewModel constructor(
                 )
                 getWeatherData()
             } else {
-                _weather.value = Error(Error.ResultError.InvalidCity)
+                _weather.postValue(Error(Error.ResultError.InvalidCity))
             }
         }
     }
 
     // load weather if has city, if not, get city and return to this func later
     private fun getWeatherData() {
-        viewModelScope.launch {
+        viewModelScope.launch(dispatcher) {
 
             if (w == null) {
                 getGeolocation()
@@ -70,13 +72,13 @@ class WeatherTodayViewModel constructor(
             }
 
             if (_weather.value is Idle) {
-                _weather.value = Loading()
+                _weather.postValue(Loading())
 
                 async {
                     val value = repository.getCachedWeather(w!!.city)
                     if (_weather.value !is Completed && value is Completed) {
                         Timber.d("got weather from cache")
-                        _weather.value = value
+                        _weather.postValue(value)
                     }
                 }
 
@@ -84,7 +86,7 @@ class WeatherTodayViewModel constructor(
                     val value = repository.getCurrentWeather(w!!.city)
                     if (value is Completed || _weather.value !is Completed) {
                         Timber.d("tried to get actual")
-                        _weather.value = value
+                        _weather.postValue(value)
                     }
                 }
 
@@ -93,12 +95,12 @@ class WeatherTodayViewModel constructor(
         }
     }
 
-    class Factory @Inject constructor(private val repository: Repository) {
+    class Factory @Inject constructor(private val repository: Repository, private val dispatcher: CoroutineDispatcher) {
         fun create(
             weather: WeatherData?,
             locationProvider: LocationProvider
         ): WeatherTodayViewModel =
-            WeatherTodayViewModel(weather, locationProvider, repository)
+            WeatherTodayViewModel(weather, locationProvider, repository, dispatcher)
     }
 }
 
