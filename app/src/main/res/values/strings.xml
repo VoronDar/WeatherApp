@@ -24,5 +24,11 @@
     <string name="TitleFav">Избранные города</string>
     <string name="cd_back">back</string>
     <string name="search_city_hint">Найти город</string>
+    <string name="reload_button">Попробовать еще раз</string>
+
+
+    <string name="loading_state_loading">Загрузка…</string>
+    <string name="loading_state_nothing">Данных не найдено</string>
+    <string name="loading_state_error">Ошибка загрузки</string>
 
 </resources>

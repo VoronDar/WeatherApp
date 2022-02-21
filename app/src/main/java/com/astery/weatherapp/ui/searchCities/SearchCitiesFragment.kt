@@ -14,7 +14,7 @@ import com.astery.weatherapp.model.state.*
 import com.astery.weatherapp.ui.BaseFragment
 import com.astery.weatherapp.ui.BindingInflater
 import com.astery.weatherapp.ui.favCities.FavCitiesAdapter
-import timber.log.Timber
+import com.astery.weatherapp.ui.loadState.LoadStateView
 import javax.inject.Inject
 
 class SearchCitiesFragment : BaseFragment<SearchCitiesFragmentBinding>() {
@@ -80,23 +80,26 @@ class SearchCitiesFragment : BaseFragment<SearchCitiesFragmentBinding>() {
     // MARK: render
     private inner class FavCitiesObserver : Observer<Result<List<WeatherData>>> {
         override fun onChanged(result: Result<List<WeatherData>>?) {
-            Timber.d("got result ${result}")
             when (result) {
                 is Idle -> renderLoading()
                 is Loading -> renderLoading()
                 is Completed<*> -> renderComplete(result.result as List<WeatherData>)
                 is GotNothing -> renderNothing()
+                else -> renderNothing()
             }
         }
 
         private fun renderNothing() {
-
+            bind.loadStateView.changeState(LoadStateView.StateNothing(), bind.recyclerView)
         }
 
         private fun renderLoading() {
+            bind.loadStateView.changeState(LoadStateView.StateLoading(), bind.recyclerView)
         }
 
         private fun renderComplete(weather: List<WeatherData>) {
+            bind.loadStateView.changeState(LoadStateView.StateHide(), bind.recyclerView)
+
             bind.run {
                 recyclerView.layoutManager =
                     LinearLayoutManager(context!!, RecyclerView.VERTICAL, false)
