@@ -1,4 +1,4 @@
-package com.astery.weatherapp.ui.favCities
+package com.astery.weatherapp.ui.citiesList
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -13,7 +13,7 @@ import com.astery.weatherapp.ui.adapterUtils.BaseViewHolder
 import com.bumptech.glide.Glide
 
 
-class FavCitiesAdapter(
+class CitiesAdapter(
     units: List<WeatherData>,
     itemListener: (WeatherData) -> Unit
 ) :
