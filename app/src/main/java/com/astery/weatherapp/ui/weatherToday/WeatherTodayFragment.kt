@@ -105,12 +105,12 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
         private fun renderError(t: Error.ResultError) {
             Timber.d("got error ${t.name}")
             bind.loadingStateView.changeState(LoadStateView.StateError())
-            if (t == Error.ResultError.PermissionDenied) moveToSearch()
+            // TODO (двигать в поиск только если нет ничего)
+            // TODO(не закидывать ошибку при отсутствии разрешения, ведь еще кеш есть)
+            //if (t == Error.ResultError.PermissionDenied) moveToSearch()
         }
 
         private fun renderChangeVisibility(isGone: Boolean) {
-            if (bind.city.isGone == isGone) return
-
             val sharedAxis = MaterialSharedAxis(MaterialSharedAxis.Y, true)
             TransitionManager.beginDelayedTransition(bind.workPanel, sharedAxis)
             TransitionManager.beginDelayedTransition(bind.root, sharedAxis)

@@ -17,7 +17,7 @@ data class WeatherDataForUI(
     val temperature = context.getString(R.string.temperature, weather.temperature)
     val feelsLike = context.getString(R.string.temperature, weather.feelLike)
     val humidity = context.getString(R.string.humidity, weather.humidity)
-    val pressure = context.getString(R.string.pressure, weather.humidity)
+    val pressure = context.getString(R.string.pressure, weather.pressure)
     val windSpeed = context.getString(R.string.windSpeed, weather.windSpeed)
     val timestamp: String
         get() =

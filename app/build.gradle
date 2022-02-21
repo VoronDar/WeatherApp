@@ -39,7 +39,7 @@ android {
         }
 
         debug{
-            buildConfigField "String", "WEATHER_API_KEY", "\"OFunPbtJMlO7TupEHP51ueKxLTNWWxDd\""
+            buildConfigField "String", "WEATHER_API_KEY", "\"UWjZ4HPjY4hUaUJzWOQbiBV1x54SG60s\""
             buildConfigField "String", "WEATHER_API_URL", "\"http://dataservice.accuweather.com/\""
         }
     }

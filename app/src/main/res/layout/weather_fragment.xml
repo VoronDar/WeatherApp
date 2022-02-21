@@ -197,6 +197,7 @@
             style="@style/state_icon"
             android:src="@drawable/ic_state_humidity"
             android:scaleType="fitCenter"
+            android:layout_marginTop="0dp"
             android:id = "@+id/humidity_icon"
             android:contentDescription="@string/cd_weather_humidity"
             app:layout_constraintTop_toTopOf="@id/temperature"
