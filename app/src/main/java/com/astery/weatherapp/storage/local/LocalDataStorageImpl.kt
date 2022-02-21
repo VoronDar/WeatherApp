@@ -43,7 +43,13 @@ class LocalDataStorageImpl @Inject constructor(private val appDatabase: AppDatab
     }
 
     override suspend fun getCities(): Result<List<WeatherData>> {
-        return getCities(appDatabase.cityDao().getCities())
+        val cities = appDatabase.cityDao().getCities()
+        if (cities.isEmpty()) return Error(Error.ResultError.UnexpectedBug)
+        val weatherData = mutableListOf<WeatherData>()
+        cities.forEach {
+            weatherData.add(WeatherData(it, null))
+        }
+        return Completed(weatherData, true)
     }
     override suspend fun getCities(searchQuery: String): Result<List<WeatherData>> {
         return getCities(appDatabase.cityDao().getCities(searchQuery))

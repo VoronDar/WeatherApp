@@ -30,14 +30,11 @@ class FavCitiesFragment : BaseFragment<FavCitiesFragmentBinding>() {
     override fun setViewModelListeners() {
         viewModel.cities.observe(
             viewLifecycleOwner, CitiesObserver(
-                bind.recyclerView, adapter, bind.loadStateView, ::reloadCities
+                bind.recyclerView, adapter, bind.loadStateView
             )
         )
     }
 
-    private fun reloadCities() {
-
-    }
 
     private fun moveToWeather(data: WeatherData) {
         findNavController().navigate(

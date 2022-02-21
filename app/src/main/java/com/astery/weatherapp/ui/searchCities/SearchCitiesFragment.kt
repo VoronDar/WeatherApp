@@ -17,6 +17,7 @@ class SearchCitiesFragment : BaseFragment<SearchCitiesFragmentBinding>() {
     private val viewModel: SearchCitiesViewModel by lazy {
         factory.create()
     }
+
     @Inject
     lateinit var factory: SearchCitiesViewModel.Factory
 
@@ -34,7 +35,7 @@ class SearchCitiesFragment : BaseFragment<SearchCitiesFragmentBinding>() {
     override fun setViewModelListeners() {
         viewModel.cities.observe(
             viewLifecycleOwner, CitiesObserver(
-                bind.recyclerView, adapter, bind.loadStateView
+                bind.recyclerView, adapter, bind.loadStateView, ::getCities
             )
         )
     }
@@ -50,9 +51,13 @@ class SearchCitiesFragment : BaseFragment<SearchCitiesFragmentBinding>() {
 
 
         bind.search.setOnClickListener {
-            hideSearchKeyboard()
-            viewModel.getCities(bind.searchText.text.toString())
+            getCities()
         }
+    }
+
+    private fun getCities() {
+        hideSearchKeyboard()
+        viewModel.getCities(bind.searchText.text.toString())
     }
 
     private fun moveToWeather(city: WeatherData) {
