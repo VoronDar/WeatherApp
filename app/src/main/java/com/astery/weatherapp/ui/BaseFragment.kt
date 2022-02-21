@@ -6,6 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.google.android.material.transition.MaterialSharedAxis
+import com.google.android.material.transition.MaterialSharedAxis.Y
+import com.google.android.material.transition.MaterialSharedAxis.Z
 
 /**
  * base fragment for all of fragments in the app
@@ -30,6 +33,15 @@ abstract class BaseFragment<B : ViewBinding> : Fragment() {
     final override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         inject()
+
+        setTransitionAnimation()
+    }
+
+    private fun setTransitionAnimation() {
+        enterTransition = MaterialSharedAxis(Y, /* forward= */ true)
+        returnTransition = MaterialSharedAxis(Y, /* forward= */ false)
+        exitTransition = MaterialSharedAxis(Y, /* forward= */ true)
+        reenterTransition = MaterialSharedAxis(Y, /* forward= */ false)
     }
 
     final override fun onCreateView(
