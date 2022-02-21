@@ -1,20 +1,19 @@
-package com.astery.weatherapp.ui.searchCities
+package com.astery.weatherapp.ui.fragments.searchCities
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.astery.weatherapp.model.pogo.City
 import com.astery.weatherapp.model.pogo.WeatherData
 import com.astery.weatherapp.model.state.Loading
 import com.astery.weatherapp.model.state.Result
 import com.astery.weatherapp.storage.repository.Repository
+import com.astery.weatherapp.ui.fragments.baseChangeFav.ChangeFavViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
-import java.lang.StringBuilder
 import javax.inject.Inject
 
-class SearchCitiesViewModel(private val repository: Repository, private val dispatcher: CoroutineDispatcher) : ViewModel() {
+class SearchCitiesViewModel(repository: Repository, dispatcher: CoroutineDispatcher) :
+    ChangeFavViewModel(repository, dispatcher) {
 
     private val _cities: MutableLiveData<Result<List<WeatherData>>> =
         MutableLiveData(Loading())
@@ -31,12 +30,6 @@ class SearchCitiesViewModel(private val repository: Repository, private val disp
         }
     }
 
-    fun changeCityFavouriteState(city: City){
-        viewModelScope.launch(dispatcher){
-            repository.changeCityFavouriteState(city)
-        }
-    }
-
     fun getCities(searchQuery: String?) {
         _cities.postValue(Loading())
 
@@ -50,7 +43,7 @@ class SearchCitiesViewModel(private val repository: Repository, private val disp
     }
 
     /** capitalize all words. It is required to make TTS work (db stores capitalized words)  */
-    private fun prepareQuery(searchQuery: String):String{
+    private fun prepareQuery(searchQuery: String): String {
         val words = searchQuery.split(" ")
         val stringBuilder = StringBuilder()
         words.forEach { string ->
@@ -61,7 +54,10 @@ class SearchCitiesViewModel(private val repository: Repository, private val disp
         return stringBuilder.toString()
     }
 
-    class Factory @Inject constructor(private val repository: Repository, private val dispatcher: CoroutineDispatcher) {
+    class Factory @Inject constructor(
+        private val repository: Repository,
+        private val dispatcher: CoroutineDispatcher
+    ) {
         fun create(): SearchCitiesViewModel =
             SearchCitiesViewModel(repository, dispatcher)
     }

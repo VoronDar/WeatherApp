@@ -152,7 +152,7 @@
             />
 
 
-        <com.astery.weatherapp.ui.favImageButton.FavImageButton
+        <com.astery.weatherapp.ui.customViews.favImageButton.FavImageButton
             android:id = "@+id/fav_icon"
             android:layout_marginEnd = "@dimen/margin"
             android:layout_height="@dimen/icon_size"

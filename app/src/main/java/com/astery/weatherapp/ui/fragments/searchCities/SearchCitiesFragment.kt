@@ -1,4 +1,4 @@
-package com.astery.weatherapp.ui.searchCities
+package com.astery.weatherapp.ui.fragments.searchCities
 
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -7,10 +7,10 @@ import androidx.navigation.fragment.findNavController
 import com.astery.weatherapp.app.di.appComponent
 import com.astery.weatherapp.databinding.SearchCitiesFragmentBinding
 import com.astery.weatherapp.model.pogo.WeatherData
-import com.astery.weatherapp.ui.BaseFragment
-import com.astery.weatherapp.ui.BindingInflater
-import com.astery.weatherapp.ui.citiesList.CitiesAdapter
-import com.astery.weatherapp.ui.citiesList.CitiesObserver
+import com.astery.weatherapp.ui.base.BaseFragment
+import com.astery.weatherapp.ui.base.BindingInflater
+import com.astery.weatherapp.ui.fragments.citiesList.CitiesAdapter
+import com.astery.weatherapp.ui.fragments.citiesList.CitiesObserver
 import javax.inject.Inject
 
 class SearchCitiesFragment : BaseFragment<SearchCitiesFragmentBinding>() {
@@ -22,7 +22,7 @@ class SearchCitiesFragment : BaseFragment<SearchCitiesFragmentBinding>() {
     lateinit var factory: SearchCitiesViewModel.Factory
 
 
-    private val adapter: CitiesAdapter by lazy(LazyThreadSafetyMode.NONE){
+    private val adapter: CitiesAdapter by lazy(LazyThreadSafetyMode.NONE) {
         CitiesAdapter(listOf(), this::moveToWeather, viewModel::changeCityFavouriteState, false)
     }
 
@@ -41,7 +41,6 @@ class SearchCitiesFragment : BaseFragment<SearchCitiesFragmentBinding>() {
                 bind.recyclerView, adapter, bind.loadStateView, ::getCities
             )
         )
-
     }
 
     override fun prepareUI() {

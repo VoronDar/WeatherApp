@@ -1,11 +1,10 @@
-package com.astery.weatherapp.ui.favImageButton
+package com.astery.weatherapp.ui.customViews.favImageButton
 
 import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageButton
 import com.astery.weatherapp.R
 import com.astery.weatherapp.ui.utils.drawable
-import timber.log.Timber
 
 
 class FavImageButton(context: Context, attrs: AttributeSet?) :

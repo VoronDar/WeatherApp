@@ -1,12 +1,12 @@
-package com.astery.weatherapp.ui.weatherToday
+package com.astery.weatherapp.ui.fragments.weatherToday
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.astery.weatherapp.model.pogo.*
 import com.astery.weatherapp.model.state.*
 import com.astery.weatherapp.storage.repository.Repository
+import com.astery.weatherapp.ui.fragments.baseChangeFav.ChangeFavViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -17,10 +17,10 @@ import javax.inject.Inject
 class WeatherTodayViewModel constructor(
     private var w: WeatherData?,
     private val locationProvider: LocationProvider,
-    private val repository: Repository,
-    private val dispatcher: CoroutineDispatcher
+    repository: Repository,
+    dispatcher: CoroutineDispatcher
 ) :
-    ViewModel() {
+    ChangeFavViewModel(repository, dispatcher){
 
     private val _weather: MutableLiveData<Result<WeatherData>> =
         MutableLiveData(Idle())
@@ -91,6 +91,16 @@ class WeatherTodayViewModel constructor(
                 }
 
 
+            }
+        }
+    }
+
+    fun changeSelectedCityFav(favourite: Boolean) {
+        viewModelScope.launch(dispatcher){
+            if (weather.value is Completed<WeatherData>){
+                val city = (weather.value as Completed<WeatherData>).result.city
+                city.isFavourite = favourite
+                changeCityFavouriteState(city)
             }
         }
     }

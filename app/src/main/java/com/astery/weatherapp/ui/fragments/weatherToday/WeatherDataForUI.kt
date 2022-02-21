@@ -1,4 +1,4 @@
-package com.astery.weatherapp.ui.weatherToday
+package com.astery.weatherapp.ui.fragments.weatherToday
 
 import android.content.Context
 import com.astery.weatherapp.R
@@ -7,13 +7,18 @@ import com.astery.weatherapp.model.pogo.Weather
 import com.astery.weatherapp.ui.utils.*
 import java.util.*
 
+/** weatherdata version that can be presented on view */
 data class WeatherDataForUI(
     val context: Context,
     private val weather: Weather,
     private val city: City,
 ) {
-    
+
+    // MARK: city
     val cityName = city.name
+    var isCityFav = city.isFavourite?: false
+
+    // MARK: weather
     val temperature = context.getString(R.string.temperature, weather.temperature)
     val feelsLike = context.getString(R.string.temperature, weather.feelLike)
     val humidity = context.getString(R.string.humidity, weather.humidity)

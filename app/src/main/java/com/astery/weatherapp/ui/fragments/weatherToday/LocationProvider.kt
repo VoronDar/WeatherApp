@@ -1,4 +1,4 @@
-package com.astery.weatherapp.ui.weatherToday
+package com.astery.weatherapp.ui.fragments.weatherToday
 
 import android.Manifest
 import android.content.pm.PackageManager

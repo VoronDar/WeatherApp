@@ -1,4 +1,4 @@
-package com.astery.weatherapp.ui.loadState
+package com.astery.weatherapp.ui.customViews.loadState
 
 import android.animation.ValueAnimator
 import android.content.Context

@@ -1,4 +1,4 @@
-package com.astery.weatherapp.ui.adapterUtils
+package com.astery.weatherapp.ui.base.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
