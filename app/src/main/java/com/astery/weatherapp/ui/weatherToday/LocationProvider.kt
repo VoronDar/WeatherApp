@@ -2,6 +2,7 @@ package com.astery.weatherapp.ui.weatherToday
 
 import android.Manifest
 import android.content.pm.PackageManager
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -13,8 +14,13 @@ import timber.log.Timber
 /** ask for permission if is it required and return location with a callback */
 class LocationProvider(private var fragment: Fragment?) {
 
+    lateinit var permReqLauncher:ActivityResultLauncher<String>
+    private lateinit var callback:LocationCallback
+
     fun getLocation(callback: LocationCallback) {
         if (isFragmentNull()) return
+
+        this.callback = callback
 
         if (ContextCompat.checkSelfPermission(
                 fragment!!.activity!!.applicationContext,
@@ -33,23 +39,13 @@ class LocationProvider(private var fragment: Fragment?) {
                     }
                 }
         } else {
-            askLocationPermission(callback)
+            askLocationPermission()
         }
     }
 
-    private fun askLocationPermission(callback: LocationCallback) {
+    private fun askLocationPermission() {
         if (isFragmentNull()) return
-
         try {
-            val permReqLauncher =
-                fragment!!.registerForActivityResult(ActivityResultContracts.RequestPermission()) { isSuccess ->
-                    if (isSuccess) {
-                        getLocation(callback)
-                    } else {
-                        callback.onPermissionDenied()
-                    }
-                }
-
             permReqLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
             ActivityCompat.requestPermissions(
                 fragment!!.activity!!,
@@ -73,6 +69,18 @@ class LocationProvider(private var fragment: Fragment?) {
             true
         } else false
     }
+
+    fun registerForActivityResult() {
+        permReqLauncher =
+            fragment!!.registerForActivityResult(ActivityResultContracts.RequestPermission()) { isSuccess ->
+                if (isSuccess) {
+                    getLocation(callback)
+                } else {
+                    callback.onPermissionDenied()
+                }
+            }
+    }
+
 
     interface LocationCallback {
         fun onSuccess(location: Location)

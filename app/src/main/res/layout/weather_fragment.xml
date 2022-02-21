@@ -105,6 +105,14 @@
         android:background="@drawable/work_shape"
         app:layout_constraintBottom_toBottomOf="parent"
         >
+
+        <com.astery.weatherapp.ui.loadState.LoadStateView
+            android:id = "@+id/loadingStateView"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_marginTop="-80dp"
+            android:layout_height="match_parent"/>
+
         <androidx.constraintlayout.widget.Group
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -1,5 +1,6 @@
 package com.astery.weatherapp.ui.weatherToday
 
+import android.content.Context
 import androidx.core.view.isGone
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -10,6 +11,7 @@ import com.astery.weatherapp.model.pogo.WeatherData
 import com.astery.weatherapp.model.state.*
 import com.astery.weatherapp.ui.BaseFragment
 import com.astery.weatherapp.ui.BindingInflater
+import com.astery.weatherapp.ui.loadState.LoadStateView
 import com.astery.weatherapp.ui.utils.ArgumentsDelegate
 import com.google.android.material.transition.MaterialSharedAxis
 import timber.log.Timber
@@ -44,8 +46,14 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
         bind.favButton.setOnClickListener { moveToFavourite() }
         bind.searchButton.setOnClickListener { moveToSearch() }
         bind.geoButton.setOnClickListener { TODO() }
+        bind.loadingStateView.onReloadListener = viewModel::getWeatherData
     }
 
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        locationProvider.registerForActivityResult()
+    }
 
     // MARK: render
     private inner class WeatherObserver : Observer<Result<WeatherData>> {
@@ -67,11 +75,13 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
         }
 
         private fun renderLoading() {
+            bind.loadingStateView.changeState(LoadStateView.StateLoading())
             renderChangeVisibility(true)
 
         }
 
         private fun renderComplete(weather: WeatherDataForUI) {
+            bind.loadingStateView.changeState(LoadStateView.StateHide())
             renderChangeVisibility(false)
             bind.run {
                 city.text = weather.cityName
@@ -85,17 +95,13 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
                 weatherState.setImageDrawable(weather.weatherIcon)
                 weatherState.contentDescription = weather.weatherState
                 weatherStateBackground.setImageDrawable(weather.weathericonBackground)
-
             }
         }
 
         private fun renderError(t: Error.ResultError) {
             Timber.d("got error ${t.name}")
-            when (t) {
-                Error.ResultError.PermissionDenied -> moveToSearch()
-                else -> {
-                }
-            }
+            bind.loadingStateView.changeState(LoadStateView.StateError())
+            if (t == Error.ResultError.PermissionDenied) moveToSearch()
         }
 
         private fun renderChangeVisibility(isGone: Boolean) {

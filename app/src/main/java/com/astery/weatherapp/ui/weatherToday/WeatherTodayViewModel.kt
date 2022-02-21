@@ -36,10 +36,12 @@ class WeatherTodayViewModel constructor(
             }
 
             override fun onPermissionDenied() {
+                Timber.d("permission denied")
                 _weather.value = Error(Error.ResultError.PermissionDenied)
             }
 
             override fun onFailure() {
+                Timber.d("failure to get a permission")
                 _weather.value = Error(Error.ResultError.PermissionDenied)
             }
         })
@@ -61,35 +63,32 @@ class WeatherTodayViewModel constructor(
     }
 
     // load weather if has city, if not, get city and return to this func later
-    private fun getWeatherData() {
+    fun getWeatherData() {
         viewModelScope.launch {
+
+            _weather.value = Loading()
 
             if (w == null) {
                 getGeolocation()
                 return@launch
             }
 
-            if (_weather.value is Idle) {
-                _weather.value = Loading()
-
-                async {
-                    val value = repository.getCachedWeather(w!!.city)
-                    if (_weather.value !is Completed && value is Completed) {
-                        Timber.d("got weather from cache")
-                        _weather.value = value
-                    }
+            async {
+                val value = repository.getCachedWeather(w!!.city)
+                if (_weather.value !is Completed && value is Completed) {
+                    Timber.d("got weather from cache")
+                    _weather.value = value
                 }
-
-                async {
-                    val value = repository.getCurrentWeather(w!!.city)
-                    if (value is Completed || _weather.value !is Completed) {
-                        Timber.d("tried to get actual")
-                        _weather.value = value
-                    }
-                }
-
-
             }
+
+            async {
+                val value = repository.getCurrentWeather(w!!.city)
+                if (value is Completed || _weather.value !is Completed) {
+                    Timber.d("tried to get actual")
+                    _weather.value = value
+                }
+            }
+
         }
     }
 
