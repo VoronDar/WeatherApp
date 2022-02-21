@@ -6,4 +6,7 @@
     <dimen name="small_text_size">16sp</dimen>
     <dimen name="big_corner_radius">16dp</dimen>
     <dimen name="small_corner_radius">8dp</dimen>
+
+    <dimen name="small_margin">8dp</dimen>
+    <dimen name="margin">16dp</dimen>
 </resources>

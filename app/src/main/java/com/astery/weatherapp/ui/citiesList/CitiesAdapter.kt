@@ -22,7 +22,7 @@ class CitiesAdapter(
     private lateinit var context: Context
 
     init {
-        blockListener = { item -> itemListener(units[item]) }
+        blockListener = { item -> itemListener(currentList[item]) }
     }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): BaseViewHolder {
@@ -32,7 +32,7 @@ class CitiesAdapter(
 
     override fun onBindViewHolder(h: BaseViewHolder, position: Int) {
         val binding = h.binding as CityUnitBinding
-        val unit = units[position]
+        val unit = currentList[position]
         binding.run {
             name.text = unit.city.name
             if (unit.weatherData != null) {
