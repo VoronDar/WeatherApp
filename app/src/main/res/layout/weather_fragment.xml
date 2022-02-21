@@ -84,6 +84,7 @@
         app:layout_constraintBottom_toTopOf="@id/work_panel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
@@ -92,6 +93,7 @@
         android:layout_height="100dp"
         android:src="@drawable/ic_sun"
         android:scaleType="fitEnd"
+        android:visibility="gone"
         app:layout_constraintBottom_toTopOf="@id/work_panel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -115,6 +117,7 @@
 
         <androidx.constraintlayout.widget.Group
             android:layout_width="wrap_content"
+            android:visibility="gone"
             android:layout_height="wrap_content"
             android:id="@+id/weatherGroup"
             app:constraint_referenced_ids="temperature,feel_temperature,helper,fav_icon, humidity, humidity_icon, windSpeed, wind_icon, pressure, pressure_icon"/>

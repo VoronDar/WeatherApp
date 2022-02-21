@@ -109,9 +109,7 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
         private fun renderError(t: Error.ResultError) {
             Timber.d("got error ${t.name}")
             bind.loadingStateView.changeState(LoadStateView.StateError())
-            // TODO (двигать в поиск только если нет ничего)
-            // TODO(не закидывать ошибку при отсутствии разрешения, ведь еще кеш есть)
-            //if (t == Error.ResultError.PermissionDenied) moveToSearch()
+            if (t == Error.ResultError.PermissionDenied) moveToSearch()
         }
 
         private fun renderChangeVisibility(isGone: Boolean) {
@@ -146,14 +144,16 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
         val binding = BottomShiftGeoDialogueBinding.inflate(layoutInflater, null, false)
 
         bottomSheetDialog.setContentView(binding.root)
-        binding.submit.setOnClickListener { moveToAppSettings() }
+        binding.submit.setOnClickListener {
+            bottomSheetDialog.cancel()
+            moveToAppSettings()
+        }
         binding.cancel.setOnClickListener { bottomSheetDialog.cancel() }
 
         bottomSheetDialog.show()
     }
 
     private fun moveToAppSettings() {
-
         val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
         val uri: Uri = Uri.fromParts("package", activity!!.packageName, null)
         intent.data = uri

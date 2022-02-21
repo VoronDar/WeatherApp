@@ -14,8 +14,8 @@ import timber.log.Timber
 /** ask for permission if is it required and return location with a callback */
 class LocationProvider(private var fragment: Fragment?) {
 
-    lateinit var permReqLauncher:ActivityResultLauncher<String>
-    private lateinit var callback:LocationCallback
+    lateinit var permReqLauncher: ActivityResultLauncher<String>
+    private lateinit var callback: LocationCallback
 
     fun getLocation(callback: LocationCallback) {
         if (isFragmentNull()) return
@@ -27,15 +27,18 @@ class LocationProvider(private var fragment: Fragment?) {
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) != PackageManager.PERMISSION_DENIED
         ) {
+
+            if (isFragmentNull()) return
+
             val fusedLocationClient =
                 LocationServices.getFusedLocationProviderClient(fragment!!.context!!)
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location ->
                     if (location != null) {
-                        Timber.d("current location = ${location.latitude}, ${location.longitude}")
+                        IS_PERMISSION_PROVIDED = true
                         callback.onSuccess(Location(location.latitude, location.longitude))
                     } else {
-                        callback.onFailure()
+                        callback.onError()
                     }
                 }
         } else {
@@ -55,7 +58,7 @@ class LocationProvider(private var fragment: Fragment?) {
 
         } catch (e: Exception) {
             Timber.d("failed with message ${e.localizedMessage}")
-            callback.onFailure()
+            callback.onError()
         }
     }
 
@@ -84,7 +87,12 @@ class LocationProvider(private var fragment: Fragment?) {
 
     interface LocationCallback {
         fun onSuccess(location: Location)
-        fun onFailure()
+        fun onError() { this.onPermissionDenied() }
         fun onPermissionDenied()
+    }
+
+    companion object {
+        var IS_PERMISSION_PROVIDED = false
+            private set
     }
 }
