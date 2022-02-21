@@ -14,4 +14,6 @@ interface LocalDataStorage {
 
     suspend fun getCities(): Result<List<WeatherData>>
     suspend fun getCities(searchQuery:String): Result<List<WeatherData>>
+    suspend fun changeCityFavouriteState(city: City)
+    suspend fun isFavourite(city: City): Boolean?
 }

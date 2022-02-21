@@ -16,32 +16,34 @@ class FavCitiesFragment : BaseFragment<FavCitiesFragmentBinding>() {
     private val viewModel: FavCitiesViewModel by lazy {
         viewModelFactory.create()
     }
-    private val adapter: CitiesAdapter = CitiesAdapter(listOf(), this::moveToWeather)
-
-
-    override fun inflateBinding(): BindingInflater<FavCitiesFragmentBinding> {
-        return FavCitiesFragmentBinding::inflate
+    private val adapter: CitiesAdapter by lazy(LazyThreadSafetyMode.NONE) {
+        CitiesAdapter(listOf(), this::moveToWeather, viewModel::changeCityFavouriteState)
     }
 
-    override fun inject() {
-        context?.appComponent?.inject(this)
-    }
 
-    override fun setViewModelListeners() {
-        viewModel.cities.observe(
-            viewLifecycleOwner, CitiesObserver(
-                bind.recyclerView, adapter, bind.loadStateView
+        override fun inflateBinding(): BindingInflater<FavCitiesFragmentBinding> {
+            return FavCitiesFragmentBinding::inflate
+        }
+
+        override fun inject() {
+            context?.appComponent?.inject(this)
+        }
+
+        override fun setViewModelListeners() {
+            viewModel.cities.observe(
+                viewLifecycleOwner, CitiesObserver(
+                    bind.recyclerView, adapter, bind.loadStateView
+                )
             )
-        )
-    }
+        }
 
 
-    private fun moveToWeather(data: WeatherData) {
-        findNavController().navigate(
-            FavCitiesFragmentDirections.actionFavCitiesFragmentToWeatherTodayFragment(
-                data
+        private fun moveToWeather(data: WeatherData) {
+            findNavController().navigate(
+                FavCitiesFragmentDirections.actionFavCitiesFragmentToWeatherTodayFragment(
+                    data
+                )
             )
-        )
 
-    }
+        }
 }

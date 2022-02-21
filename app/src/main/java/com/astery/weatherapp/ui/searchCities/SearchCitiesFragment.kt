@@ -21,7 +21,10 @@ class SearchCitiesFragment : BaseFragment<SearchCitiesFragmentBinding>() {
     @Inject
     lateinit var factory: SearchCitiesViewModel.Factory
 
-    private val adapter: CitiesAdapter = CitiesAdapter(listOf(), this::moveToWeather)
+
+    private val adapter: CitiesAdapter by lazy(LazyThreadSafetyMode.NONE){
+        CitiesAdapter(listOf(), this::moveToWeather, viewModel::changeCityFavouriteState, false)
+    }
 
 
     override fun inflateBinding(): BindingInflater<SearchCitiesFragmentBinding> {
@@ -38,6 +41,7 @@ class SearchCitiesFragment : BaseFragment<SearchCitiesFragmentBinding>() {
                 bind.recyclerView, adapter, bind.loadStateView, ::getCities
             )
         )
+
     }
 
     override fun prepareUI() {

@@ -68,7 +68,6 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
 
         private fun renderLoading() {
             renderChangeVisibility(true)
-
         }
 
         private fun renderComplete(weather: WeatherDataForUI) {
@@ -92,7 +91,7 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
         private fun renderError(t: Error.ResultError) {
             Timber.d("got error ${t.name}")
             when (t) {
-                Error.ResultError.PermissionDenied -> moveToSearch()
+                Error.ResultError.PermissionDenied -> moveToFavourite()
                 else -> {
                 }
             }

@@ -1,6 +1,7 @@
 package com.astery.weatherapp.ui.favCities
 
 import androidx.lifecycle.*
+import com.astery.weatherapp.model.pogo.City
 import com.astery.weatherapp.model.pogo.WeatherData
 import com.astery.weatherapp.model.state.Completed
 import com.astery.weatherapp.model.state.Idle
@@ -20,6 +21,12 @@ class FavCitiesViewModel(private val repository: Repository, private val dispatc
 
     init {
         getFavouriteCities()
+    }
+
+    fun changeCityFavouriteState(city: City){
+        viewModelScope.launch(dispatcher){
+            repository.changeCityFavouriteState(city)
+        }
     }
 
     private fun getFavouriteCities() {

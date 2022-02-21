@@ -1,6 +1,5 @@
 package com.astery.weatherapp.storage.local.db.dao
 
-import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Query
 import com.astery.weatherapp.model.pogo.City
@@ -19,5 +18,7 @@ interface CityDao : BaseDao<City> {
     @Query("SELECT  * FROM City")
     suspend fun getCities(): List<City>
 
+    @Query("SELECT isFavourite from CITY WHERE id = :id")
+    suspend fun isFavourite(id: String): Boolean?
 
 }

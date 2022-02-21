@@ -16,4 +16,11 @@ abstract class BaseAdapter<R>(units: List<R>, diffUtil: DiffUtil.ItemCallback<R>
         submitList(units)
         field = value
     }
+
+    protected fun removeItem(position: Int){
+        val currentList = currentList.toMutableList()
+        currentList.removeAt(position)
+        submitList(currentList)
+
+    }
 }

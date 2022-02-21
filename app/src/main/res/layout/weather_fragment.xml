@@ -151,13 +151,14 @@
             android:fontFamily="@font/opensans_light"
             />
 
-        <ImageButton
-            style="@style/icon"
-            android:background="?android:selectableItemBackgroundBorderless"
+
+        <com.astery.weatherapp.ui.favImageButton.FavImageButton
             android:id = "@+id/fav_icon"
-            android:contentDescription="@string/cd_fav_icon"
-            android:src="@drawable/ic_baseline_star_24"
+            android:layout_marginEnd = "@dimen/margin"
+            android:layout_height="@dimen/icon_size"
+            android:layout_width="@dimen/icon_size"
             app:layout_constraintStart_toStartOf="@id/middle"
+            android:contentDescription="@string/cd_fav_icon"
             android:layout_marginStart="16dp"
             app:layout_constraintTop_toTopOf="@id/fav_button"
             app:layout_constraintBottom_toBottomOf="@id/fav_button"

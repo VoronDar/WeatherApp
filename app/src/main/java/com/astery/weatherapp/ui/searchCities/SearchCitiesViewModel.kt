@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.astery.weatherapp.model.pogo.City
 import com.astery.weatherapp.model.pogo.WeatherData
 import com.astery.weatherapp.model.state.Loading
 import com.astery.weatherapp.model.state.Result
@@ -27,6 +28,12 @@ class SearchCitiesViewModel(private val repository: Repository, private val disp
     private fun getCities() {
         viewModelScope.launch(dispatcher) {
             _cities.postValue(repository.getCities())
+        }
+    }
+
+    fun changeCityFavouriteState(city: City){
+        viewModelScope.launch(dispatcher){
+            repository.changeCityFavouriteState(city)
         }
     }
 
