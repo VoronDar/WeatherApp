@@ -13,7 +13,7 @@ import javax.inject.Inject
 class FavCitiesFragment : BaseFragment<FavCitiesFragmentBinding>() {
     @Inject
     lateinit var viewModelFactory: FavCitiesViewModel.Factory
-    private val viewModel: FavCitiesViewModel by lazy {
+    private val viewModel: FavCitiesViewModel by lazy() {
         viewModelFactory.create()
     }
     private val adapter: CitiesAdapter by lazy(LazyThreadSafetyMode.NONE) {

@@ -20,7 +20,7 @@ class WeatherTodayViewModel constructor(
     repository: Repository,
     dispatcher: CoroutineDispatcher
 ) :
-    ChangeFavViewModel(repository, dispatcher){
+    ChangeFavViewModel(repository, dispatcher) {
 
     private val _weather: MutableLiveData<Result<WeatherData>> =
         MutableLiveData(Idle())
@@ -96,8 +96,8 @@ class WeatherTodayViewModel constructor(
     }
 
     fun changeSelectedCityFav(favourite: Boolean) {
-        viewModelScope.launch(dispatcher){
-            if (weather.value is Completed<WeatherData>){
+        viewModelScope.launch(dispatcher) {
+            if (weather.value is Completed<WeatherData>) {
                 val city = (weather.value as Completed<WeatherData>).result.city
                 city.isFavourite = favourite
                 changeCityFavouriteState(city)
@@ -105,7 +105,27 @@ class WeatherTodayViewModel constructor(
         }
     }
 
-    class Factory @Inject constructor(private val repository: Repository, private val dispatcher: CoroutineDispatcher) {
+    fun getActualFavourite() {
+        viewModelScope.launch(dispatcher) {
+            if (weather.value is Completed) {
+                val result = (weather.value as Completed<WeatherData>)
+                val isCityFav = repository.isCityFavourite(result.result.city)
+                _weather.postValue(
+                    Completed(
+                        WeatherData(
+                            result.result.city.copy(isFavourite = isCityFav),
+                            result.result.weatherData
+                        ), result.isFromCache
+                    )
+                )
+            }
+        }
+    }
+
+    class Factory @Inject constructor(
+        private val repository: Repository,
+        private val dispatcher: CoroutineDispatcher
+    ) {
         fun create(
             weather: WeatherData?,
             locationProvider: LocationProvider

@@ -38,6 +38,7 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
     // MARK: listeners
     override fun setViewModelListeners() {
         viewModel.weather.observe(viewLifecycleOwner, WeatherObserver())
+        viewModel.getActualFavourite()
     }
 
     override fun prepareUI() {

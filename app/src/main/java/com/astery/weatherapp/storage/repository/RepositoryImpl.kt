@@ -84,6 +84,10 @@ class RepositoryImpl @Inject constructor(
         local.changeCityFavouriteState(city)
     }
 
+    override suspend fun isCityFavourite(city: City): Boolean {
+        return local.isFavourite(city)?: false
+    }
+
     /**
      * get from remote - save to local
      * if there is no data in remote - get from local

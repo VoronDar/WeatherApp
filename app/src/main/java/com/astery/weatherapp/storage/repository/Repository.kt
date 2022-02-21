@@ -13,4 +13,5 @@ interface Repository {
     suspend fun getCities(searchQuery: String): Result<List<WeatherData>>
     suspend fun getCities(): Result<List<WeatherData>>
     suspend fun changeCityFavouriteState(city:City)
+    suspend fun isCityFavourite(city:City):Boolean
 }
