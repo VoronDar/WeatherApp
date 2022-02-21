@@ -5,6 +5,7 @@ import com.astery.weatherapp.storage.local.db.AppDatabase
 import com.astery.weatherapp.storage.preferences.Preferences
 import dagger.Module
 import dagger.Provides
+import javax.inject.Qualifier
 
 @Module
 class ContextDependAppModule(private val context: Context) {
@@ -19,4 +20,3 @@ class ContextDependAppModule(private val context: Context) {
     }
 
 }
-

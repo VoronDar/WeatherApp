@@ -1,6 +1,7 @@
 package com.astery.weatherapp.storage.remote.retrofit.cities
 
 import com.astery.weatherapp.BuildConfig
+import com.astery.weatherapp.app.di.Prod
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit

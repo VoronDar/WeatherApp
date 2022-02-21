@@ -1,5 +1,7 @@
 package com.astery.weatherapp.storage.repository
 
+import com.astery.weatherapp.app.di.Fake
+import com.astery.weatherapp.app.di.Prod
 import com.astery.weatherapp.model.pogo.City
 import com.astery.weatherapp.model.pogo.Location
 import com.astery.weatherapp.model.pogo.WeatherData
@@ -14,7 +16,7 @@ import javax.inject.Inject
 import kotlin.reflect.KSuspendFunction1
 
 class RepositoryImpl @Inject constructor(
-    private val remote: RemoteDataStorage,
+    @Fake private val remote: RemoteDataStorage,
     private val local: LocalDataStorage,
     private val prefs: Preferences
 ) : Repository {
