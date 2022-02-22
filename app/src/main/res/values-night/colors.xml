@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#2F363E</color>
+    <color name="on_background">#FFFFFF</color>
+    <color name="icon_on_background">#C6C6C6</color>
+    <color name="divider">#616161</color>
+    <color name="down">#547A94</color>
+    <color name="status">#1F4159</color>
+    <color name="on_down">#FFFFFF</color>
+    <color name="icon_fav_selected">#EAB040</color>
+
+
+
+    <!-- less important small text on background  -->
+    <color name="helper_text">#B3818181</color>
+</resources>

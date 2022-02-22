@@ -17,6 +17,7 @@ import com.astery.weatherapp.ui.base.BaseFragment
 import com.astery.weatherapp.ui.base.BindingInflater
 import com.astery.weatherapp.ui.customViews.loadState.LoadStateView
 import com.astery.weatherapp.ui.utils.ArgumentsDelegate
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.transition.MaterialSharedAxis
 import timber.log.Timber
@@ -145,6 +146,7 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
     private fun openGeoPanel() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val binding = BottomShiftGeoDialogueBinding.inflate(layoutInflater, null, false)
+        bottomSheetDialog.behavior.state = BottomSheetBehavior.STATE_EXPANDED
 
         bottomSheetDialog.setContentView(binding.root)
         binding.submit.setOnClickListener {
