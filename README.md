@@ -1,5 +1,6 @@
 # WeatherApp
 Test task: Application for viewing current weather. You can select a location yourself or use geolocation.
+OutOfDate branch contains some cleanings I made after deadline
 
 ## Technologies
 - **Kotlin**
