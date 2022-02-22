@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/down">
+
+    <View
+        android:id="@+id/upper_place"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:alpha="0.1"
+        android:background="@color/black"
+        android:importantForAccessibility="no"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <FrameLayout
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@drawable/shape_with_rounded_bottom_left"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/search_button"
+            style="@style/icon"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="5dp"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:contentDescription="@string/cd_search_icon"
+            android:src="@drawable/ic_baseline_search_24" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@drawable/shape_with_rounded_bottom_right"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/geo_button"
+            style="@style/icon"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="5dp"
+            android:background="?android:selectableItemBackgroundBorderless"
+            android:contentDescription="@string/cd_geo_icon"
+            android:src="@drawable/ic_baseline_my_location_24" />
+    </FrameLayout>
+
+
+    <TextView
+        android:id="@+id/city"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/heebo_medium"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@id/upper_place" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/heebo_regular"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/regular_text_size"
+        app:layout_constraintTop_toBottomOf="@id/city" />
+
+    <ImageView
+        android:id="@+id/weatherStateBackground"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginBottom="-8dp"
+        android:importantForAccessibility="no"
+        android:scaleType="fitXY"
+        android:src="@drawable/sun_back"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/work_panel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/weatherState"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:contentDescription="@string/cd_weather_state_empty"
+        android:scaleType="fitEnd"
+        android:src="@drawable/ic_sun"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@id/work_panel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/work_panel"
+        android:layout_width="match_parent"
+        android:layout_height="170dp"
+        android:background="@drawable/work_shape"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <com.astery.weatherapp.ui.customViews.loadState.LoadStateView
+            android:id="@+id/loadingStateView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/weatherGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="temperature,feel_temperature,helper,fav_icon, humidity, humidity_icon, windSpeed, wind_icon, pressure, pressure_icon" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@id/middle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.5" />
+
+        <TextView
+            android:id="@+id/temperature"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:fontFamily="@font/opensans_light"
+            android:textAlignment="center"
+            android:textColor="@color/on_background"
+            android:textSize="30sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/helper"
+            style="@style/helperText"
+            android:layout_width="0dp"
+            android:text="@string/feels_like"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/temperature" />
+
+        <TextView
+            android:id="@+id/feel_temperature"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/opensans_light"
+            android:textAlignment="center"
+            android:textColor="@color/on_background"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/helper" />
+
+
+        <com.astery.weatherapp.ui.customViews.favImageButton.FavImageButton
+            android:id="@+id/fav_icon"
+            android:layout_width="@dimen/icon_size"
+            android:layout_height="@dimen/icon_size"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_marginEnd="@dimen/margin"
+            android:contentDescription="@string/cd_fav_icon"
+            app:layout_constraintBottom_toBottomOf="@id/fav_button"
+            app:layout_constraintEnd_toStartOf="@id/fav_button"
+            app:layout_constraintTop_toTopOf="@id/fav_button" />
+
+        <Button
+            android:id="@+id/fav_button"
+            style="@style/mainButton"
+            android:layout_width="wrap_content"
+            android:layout_marginStart="@dimen/margin"
+            android:layout_marginEnd="@dimen/margin"
+            android:layout_marginBottom="@dimen/margin"
+            android:contentDescription="@string/cd_fav_icon"
+            android:paddingLeft="@dimen/margin"
+            android:paddingRight="@dimen/margin"
+            android:text="@string/favourite"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            />
+
+
+        <ImageView
+            android:id="@+id/humidity_icon"
+            style="@style/state_icon"
+            android:layout_marginTop="4dp"
+            android:contentDescription="@string/cd_weather_humidity"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_state_humidity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/temperature" />
+
+        <TextView
+            android:id="@+id/humidity"
+            style="@style/state_text"
+            app:layout_constraintBottom_toBottomOf="@id/humidity_icon"
+            app:layout_constraintEnd_toEndOf="@id/middle"
+            app:layout_constraintStart_toEndOf="@id/humidity_icon"
+            app:layout_constraintTop_toTopOf="@id/humidity_icon" />
+
+        <ImageView
+            android:id="@+id/wind_icon"
+            style="@style/state_icon"
+            android:contentDescription="@string/cd_weather_windSpeed"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_state_wind"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/humidity_icon" />
+
+        <TextView
+            android:id="@+id/windSpeed"
+            style="@style/state_text"
+            app:layout_constraintBottom_toBottomOf="@id/wind_icon"
+            app:layout_constraintEnd_toEndOf="@id/middle"
+            app:layout_constraintStart_toEndOf="@id/wind_icon"
+            app:layout_constraintTop_toTopOf="@id/wind_icon" />
+
+        <ImageView
+            android:id="@+id/pressure_icon"
+            style="@style/state_icon"
+            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginTop="0dp"
+            android:contentDescription="@string/cd_weather_pressure"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_state_pressure"
+            app:layout_constraintStart_toEndOf="@id/humidity"
+            app:layout_constraintTop_toTopOf="@id/humidity_icon" />
+
+        <TextView
+            android:id="@+id/pressure"
+            style="@style/state_text"
+            app:layout_constraintBottom_toBottomOf="@id/pressure_icon"
+            app:layout_constraintStart_toEndOf="@id/pressure_icon"
+            app:layout_constraintTop_toTopOf="@id/pressure_icon" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

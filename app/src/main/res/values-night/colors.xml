@@ -9,8 +9,6 @@
     <color name="on_down">#FFFFFF</color>
     <color name="icon_fav_selected">#EAB040</color>
 
-
-
     <!-- less important small text on background  -->
     <color name="helper_text">#B3818181</color>
 </resources>
