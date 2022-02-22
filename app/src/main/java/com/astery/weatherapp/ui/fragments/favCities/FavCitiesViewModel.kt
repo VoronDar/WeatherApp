@@ -1,6 +1,5 @@
 package com.astery.weatherapp.ui.fragments.favCities
 
-import android.widget.Toast
 import androidx.lifecycle.*
 import com.astery.weatherapp.model.pogo.WeatherData
 import com.astery.weatherapp.model.state.Completed
@@ -11,7 +10,6 @@ import com.astery.weatherapp.ui.fragments.baseChangeFav.ChangeFavViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.util.*
 import javax.inject.Inject
 
@@ -32,18 +30,13 @@ class FavCitiesViewModel(repository: Repository, dispatcher: CoroutineDispatcher
             if (_cities.value is Completed?) return@launch
             val result = repository.getFavouriteCities()
             _cities.postValue(result)
-
-            Timber.d("${cities.value} value")
             if (result is Completed<List<WeatherData>>) {
-                Timber.d("ara?")
                 result.result.forEach {
                     async {
-                        Timber.d("ask for weather")
                         val weatherResult = repository.getCachedWeather(it.city)
                         if (weatherResult is Completed) {
                             it.weatherData = weatherResult.result.weatherData
                             _cities.postValue(result)
-                            Timber.d("got weather")
                         }
                     }
                 }

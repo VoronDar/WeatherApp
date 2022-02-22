@@ -80,5 +80,58 @@
         <item name="android:padding">-8dp</item>
     </style>
 
+    <style name="verticalLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:padding">@dimen/margin</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:background">@color/background</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="upperPlace">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">36dp</item>
+        <item name="android:alpha">0.1</item>
+        <item name="android:background">@color/on_background</item>
+        <item name="android:importantForAccessibility">no</item>
+    </style>
+
+    <style name="horisontalLayout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+    <style name="divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">2dp</item>
+        <item name="android:layout_marginTop">4dp</item>
+        <item name="android:layout_marginLeft">@dimen/margin</item>
+        <item name="android:layout_marginRight">@dimen/margin</item>
+        <item name="android:background">@color/divider</item>
+    </style>
+
+    <style name="background">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:background">@color/down</item>
+    </style>
+
+    <style name="workShape">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:background">@drawable/work_shape</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+    </style>
+
+    <style name="cityRecyclerView">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:clipToPadding">false</item>
+    </style>
+
 
 </resources>

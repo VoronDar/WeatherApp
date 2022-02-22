@@ -14,9 +14,8 @@ import androidx.core.view.isVisible
 import com.astery.weatherapp.R
 import com.astery.weatherapp.databinding.LoadingStateViewBinding
 import com.astery.weatherapp.ui.utils.drawable
-import timber.log.Timber
 
-
+/** loading data placeholder with several states: loading, no data, error */
 class LoadStateView(context: Context?, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     private val bind: LoadingStateViewBinding =
         LoadingStateViewBinding.inflate(LayoutInflater.from(context), this, true)
@@ -28,11 +27,21 @@ class LoadStateView(context: Context?, attrs: AttributeSet?) : LinearLayout(cont
             renderState()
         }
 
+    /** error state has button 'reload'.*/
     var onReloadListener: (() -> Unit)? = null
         set(value) {
             field = value
-            if (value != null) bind.reloadButton.setOnClickListener { onReloadListener!!.invoke() }
+            if (value != null) bind.reloadButton.setOnClickListener { value.invoke() }
         }
+
+    /**
+     * @param switcher view that replaced with this (one of them is gone and another is visible and vice versa)
+     * */
+    fun changeState(state: LoadingState, switcher: View? = null) {
+        this.state = state
+        switcher?.isVisible = state is StateHide
+        isVisible = state !is StateHide
+    }
 
 
     override fun draw(canvas: Canvas?) {
@@ -45,13 +54,6 @@ class LoadStateView(context: Context?, attrs: AttributeSet?) : LinearLayout(cont
         bind.icon.setImageDrawable(context.drawable(state.iconId))
         state.render(bind)
     }
-
-    fun changeState(state: LoadingState, switcher: View?=null) {
-        this.state = state
-        switcher?.isVisible = state is StateHide
-        isVisible = state !is StateHide
-    }
-
 
     sealed class LoadingState {
         open val iconId: Int = R.drawable.ic_loading_state_loading
@@ -83,8 +85,6 @@ class LoadStateView(context: Context?, attrs: AttributeSet?) : LinearLayout(cont
             rotationAnimator.doOnCancel {
                 bind.icon.rotation = 0f
             }
-
-            Timber.tag("animation").d("started")
             rotationAnimator.start()
         }
 

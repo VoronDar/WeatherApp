@@ -11,11 +11,12 @@ abstract class BaseAdapter<R>(units: List<R>, diffUtil: DiffUtil.ItemCallback<R>
     ListAdapter<R, BaseViewHolder>(diffUtil) {
     open var blockListener: (Int) -> Unit = {}
 
-    protected var units: List<R> = units
-        set(value) {
+    init{
         submitList(units)
-        field = value
     }
+
+    // make submitList final to escape "accessing non-final property in constructor"
+    final override fun submitList(list: List<R>?) = super.submitList(list)
 
     protected fun removeItem(position: Int){
         val currentList = currentList.toMutableList()

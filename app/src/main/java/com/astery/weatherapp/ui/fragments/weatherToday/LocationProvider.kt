@@ -10,14 +10,12 @@ import androidx.fragment.app.Fragment
 import com.astery.weatherapp.model.pogo.Location
 import com.google.android.gms.location.LocationServices
 import timber.log.Timber
-import android.location.LocationManager
-import androidx.core.content.getSystemService
 
 
 /** ask for permission if is it required and return location with a callback */
 class LocationProvider(private var fragment: Fragment?) {
 
-    lateinit var permReqLauncher: ActivityResultLauncher<String>
+    private lateinit var permReqLauncher: ActivityResultLauncher<String>
     private lateinit var callback: LocationCallback
 
     fun getLocation(callback: LocationCallback) {
@@ -91,7 +89,10 @@ class LocationProvider(private var fragment: Fragment?) {
 
     interface LocationCallback {
         fun onSuccess(location: Location)
-        fun onError() { this.onPermissionDenied() }
+        fun onError() {
+            this.onPermissionDenied()
+        }
+
         fun onPermissionDenied()
     }
 

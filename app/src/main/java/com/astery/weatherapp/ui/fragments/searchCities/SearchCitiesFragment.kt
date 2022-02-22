@@ -14,7 +14,7 @@ import com.astery.weatherapp.ui.fragments.citiesList.CitiesObserver
 import javax.inject.Inject
 
 class SearchCitiesFragment : BaseFragment<SearchCitiesFragmentBinding>() {
-    private val viewModel: SearchCitiesViewModel by lazy {
+    private val viewModel: SearchCitiesViewModel by lazy(LazyThreadSafetyMode.NONE) {
         factory.create()
     }
 

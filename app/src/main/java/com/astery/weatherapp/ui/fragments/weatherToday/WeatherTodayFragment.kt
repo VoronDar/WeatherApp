@@ -27,7 +27,7 @@ import javax.inject.Inject
 class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
 
     private val locationProvider = LocationProvider(this)
-    private val weather: WeatherData? by ArgumentsDelegate()
+    private val weather: WeatherData? by arguments
     private val viewModel: WeatherTodayViewModel by lazy {
         factory.create(weather, locationProvider)
     }

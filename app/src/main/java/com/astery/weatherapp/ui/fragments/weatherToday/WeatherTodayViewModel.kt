@@ -75,7 +75,7 @@ class WeatherTodayViewModel constructor(
             getWeatherData()
         } else {
             _weather.postValue(Error(Error.ResultError.InvalidCity))
-            asdasd()
+            tryToPostErrorWithPermDenied()
         }
     }
 
@@ -112,7 +112,7 @@ class WeatherTodayViewModel constructor(
                 if (value is Completed || _weather.value !is Completed) {
                     Timber.d("tried to get actual weather")
                     _weather.postValue(value)
-                    asdasd()
+                    tryToPostErrorWithPermDenied()
                 }
 
             }
@@ -138,7 +138,7 @@ class WeatherTodayViewModel constructor(
         }
     }
 
-    private fun asdasd() {
+    private fun tryToPostErrorWithPermDenied() {
         // if there is no data and permission isn't granted ->
         // than we can't do anything and the only thing we can to do - is to move to another fragment
         if (_weather.value is Error && !LocationProvider.IS_PERMISSION_PROVIDED)

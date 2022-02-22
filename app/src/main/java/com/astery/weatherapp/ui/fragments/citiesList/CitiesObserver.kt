@@ -32,7 +32,7 @@ class CitiesObserver(
         when (result) {
             is Idle -> renderLoading()
             is Loading -> renderLoading()
-            is Completed<*> -> renderComplete(result.result as List<WeatherData>)
+            is Completed<List<WeatherData>> -> renderComplete(result.result)
             is GotNothing -> renderNothing()
             else -> renderError()
         }
@@ -51,9 +51,9 @@ class CitiesObserver(
     }
 
     private fun renderComplete(weather: List<WeatherData>) {
+        Timber.d("render ${weather.subList(0, if (weather.size > 5) 5 else weather.size)}")
         loadingStateView.changeState(LoadStateView.StateHide(), recyclerView)
         adapter.submitList(weather)
-        Timber.d("render")
     }
 
 }

@@ -49,3 +49,5 @@ fun <T> Bundle.put(key: String, value: T) {
         else -> throw IllegalStateException("Type of property $key is not supported")
     }
 }
+
+fun <T>argument():ArgumentsDelegate<T> = ArgumentsDelegate()

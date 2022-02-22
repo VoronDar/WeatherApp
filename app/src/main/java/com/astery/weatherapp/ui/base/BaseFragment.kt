@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.google.android.material.transition.MaterialSharedAxis
 import com.google.android.material.transition.MaterialSharedAxis.Y
-import com.google.android.material.transition.MaterialSharedAxis.Z
 
 /**
  * base fragment for all of fragments in the app
@@ -19,21 +18,21 @@ abstract class BaseFragment<B : ViewBinding> : Fragment() {
     protected val bind: B
         get() = _bind!!
 
+
     /** get a function that inflates a viewBinding */
     protected abstract fun inflateBinding(): BindingInflater<B>
     protected abstract fun inject()
 
-    /** start observe viewModel variables */
+    /** start observe viewModel variables. called after prepareUI in onViewCreated */
     protected abstract fun setViewModelListeners()
 
-    /** attach adapters to recyclerView, set onClickListeners */
+    /** attach adapters to recyclerView, set onClickListeners. called in onViewCreated */
     protected open fun prepareUI() {}
 
 
     final override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         inject()
-
         setTransitionAnimation()
     }
 
@@ -44,6 +43,7 @@ abstract class BaseFragment<B : ViewBinding> : Fragment() {
         reenterTransition = MaterialSharedAxis(Y, /* forward= */ false)
     }
 
+    // MARK: binding lifecycle
     final override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,16 +53,18 @@ abstract class BaseFragment<B : ViewBinding> : Fragment() {
     }
 
 
+    final override fun onDestroyView() {
+        super.onDestroyView()
+        _bind = null
+    }
+
+    // MARK: start actions
     final override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         prepareUI()
         setViewModelListeners()
     }
 
-    final override fun onDestroyView() {
-        super.onDestroyView()
-        _bind = null
-    }
 
 }
 
