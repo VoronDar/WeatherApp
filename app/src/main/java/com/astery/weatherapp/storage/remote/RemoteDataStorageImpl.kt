@@ -51,7 +51,7 @@ class RemoteDataStorageImpl @Inject constructor(
     override suspend fun getTopCities(): Result<List<WeatherData>> {
         return try {
             val it = citiesRetrofit.api.getTopCities(
-                50,
+                100,
                 key,
                 lang
             )
