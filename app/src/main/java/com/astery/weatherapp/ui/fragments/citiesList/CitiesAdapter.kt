@@ -3,25 +3,20 @@ package com.astery.weatherapp.ui.fragments.citiesList
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.RecyclerView
 import com.astery.weatherapp.databinding.CityUnitBinding
-
 import com.astery.weatherapp.model.pogo.City
-
 import com.astery.weatherapp.model.pogo.WeatherData
 import com.astery.weatherapp.ui.base.adapter.BaseAdapter
 import com.astery.weatherapp.ui.base.adapter.BaseViewHolder
 import com.bumptech.glide.Glide
-import timber.log.Timber
 
 
 class CitiesAdapter(
     units: List<WeatherData>,
     itemListener: (WeatherData) -> Unit,
-    private val changeFavouriteListener:(city: City)->Unit,
-    private val isFavouriteList:Boolean=true
+    private val changeFavouriteListener: (city: City) -> Unit,
+    private val isFavouriteList: Boolean = true
 ) :
     BaseAdapter<WeatherData>(units, diffUtil) {
 
@@ -37,12 +32,11 @@ class CitiesAdapter(
     }
 
     override fun onBindViewHolder(h: BaseViewHolder, position: Int) {
-        Toast.makeText(h.binding.root.context, "changed $position", Toast.LENGTH_SHORT).show()
         val binding = h.binding as CityUnitBinding
         val unit = currentList[position]
         binding.run {
             name.text = unit.city.name
-            favIcon.init(unit.city.isFavourite?: false) { isFavourite ->
+            favIcon.init(unit.city.isFavourite ?: false) { isFavourite ->
                 unit.city.isFavourite = isFavourite
                 changeFavouriteListener.invoke(unit.city)
                 // if this is a favourite list - may remove
@@ -52,7 +46,7 @@ class CitiesAdapter(
 
             if (unit.weatherData != null) {
                 val photoUrl =
-                    "https://developer.accuweather.com/sites/default/files/${if (unit.weatherData!!.icon/ 10 >= 1) "" else "0"}${unit.weatherData!!.icon}-s.png"
+                    "https://developer.accuweather.com/sites/default/files/${if (unit.weatherData!!.icon / 10 >= 1) "" else "0"}${unit.weatherData!!.icon}-s.png"
                 Glide.with(context)
                     .load(photoUrl)
                     .into(binding.weatherIcon)
@@ -61,7 +55,7 @@ class CitiesAdapter(
 
     }
 
-    private fun removeItem(unit:WeatherData){
+    private fun removeItem(unit: WeatherData) {
         removeItem(currentList.indexOf(unit))
     }
 

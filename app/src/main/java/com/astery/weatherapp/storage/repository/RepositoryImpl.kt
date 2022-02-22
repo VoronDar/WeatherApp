@@ -1,6 +1,5 @@
 package com.astery.weatherapp.storage.repository
 
-import com.astery.weatherapp.app.di.Fake
 import com.astery.weatherapp.app.di.Prod
 import com.astery.weatherapp.model.pogo.City
 import com.astery.weatherapp.model.pogo.Location

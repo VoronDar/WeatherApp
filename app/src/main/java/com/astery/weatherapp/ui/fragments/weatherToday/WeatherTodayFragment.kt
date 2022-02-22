@@ -113,7 +113,6 @@ class WeatherTodayFragment : BaseFragment<WeatherFragmentBinding>() {
         private fun renderError(t: Error.ResultError) {
             Timber.d("got error ${t.name}")
             bind.loadingStateView.changeState(LoadStateView.StateError())
-            if (t == Error.ResultError.PermissionDenied) moveToSearch()
         }
 
         private fun renderChangeVisibility(isGone: Boolean) {

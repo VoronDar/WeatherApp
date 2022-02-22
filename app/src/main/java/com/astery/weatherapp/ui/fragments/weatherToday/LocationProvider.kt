@@ -10,6 +10,9 @@ import androidx.fragment.app.Fragment
 import com.astery.weatherapp.model.pogo.Location
 import com.google.android.gms.location.LocationServices
 import timber.log.Timber
+import android.location.LocationManager
+import androidx.core.content.getSystemService
+
 
 /** ask for permission if is it required and return location with a callback */
 class LocationProvider(private var fragment: Fragment?) {
@@ -38,6 +41,7 @@ class LocationProvider(private var fragment: Fragment?) {
                         IS_PERMISSION_PROVIDED = true
                         callback.onSuccess(Location(location.latitude, location.longitude))
                     } else {
+                        Timber.d("can't find location")
                         callback.onError()
                     }
                 }

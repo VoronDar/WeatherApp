@@ -113,7 +113,7 @@
             android:id="@+id/weatherGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="visible"
+            android:visibility="gone"
             app:constraint_referenced_ids="temperature,feel_temperature,helper,fav_icon, humidity, humidity_icon, windSpeed, wind_icon, pressure, pressure_icon" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -225,7 +225,7 @@
         <ImageView
             android:id="@+id/pressure_icon"
             style="@style/state_icon"
-            android:layout_marginLeft="@dimen/margin"
+            android:layout_marginStart="@dimen/margin"
             android:layout_marginTop="0dp"
             android:contentDescription="@string/cd_weather_pressure"
             android:scaleType="fitCenter"

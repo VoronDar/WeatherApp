@@ -10,8 +10,8 @@
     <ImageView
         android:layout_width="70dp"
         android:id = "@+id/icon"
-        android:contentDescription="TODO"
         android:layout_height="70dp"
+        android:importantForAccessibility="no"
         android:src="@drawable/ic_loading_state_loading"
         android:scaleType="centerInside"/>
 
@@ -20,7 +20,6 @@
         style="@style/regularText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="adasdsad"
         android:textAlignment="center"
         android:textColor="@color/down" />
 
@@ -28,7 +27,7 @@
         android:id = "@+id/reloadButton"
         style="@style/mainButton"
         android:visibility="invisible"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/margin"
         android:text = "@string/reload_button"
         />
 

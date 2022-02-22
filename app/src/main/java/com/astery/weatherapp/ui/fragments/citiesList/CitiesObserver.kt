@@ -1,6 +1,5 @@
 package com.astery.weatherapp.ui.fragments.citiesList
 
-import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
