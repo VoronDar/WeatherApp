@@ -23,8 +23,8 @@
     <ImageView
         android:id = "@+id/weather_icon"
         android:layout_width="50dp"
-        android:scaleX="1.5"
-        android:scaleY="1.5"
+        android:scaleX="2"
+        android:scaleY="2"
         android:layout_height="match_parent"
         android:scaleType="centerInside"
         />
